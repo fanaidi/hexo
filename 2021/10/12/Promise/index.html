@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;fanaidi.gitee.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:&quot;valine&quot;,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Promise简介1.抽象表达 promise是一门新的技术 promise是JS中进行异步编程的新解决方案(旧方案是单纯使用回调函数)  2.具体表达 从语法上来说:Promise是一个构造函数 从功能上来说:Promise对象用来封装一个异步操作并可以获取其成功&#x2F;失败的结果值  优点 指定回调函数的方式更加灵活   旧的:必须在启动异步任务前指定 promise:启动异步任务&#x3D;&gt;返回pr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Promise">
+<meta property="og:url" content="https://fanaidi.gitee.io/2021/10/12/Promise/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Promise简介1.抽象表达 promise是一门新的技术 promise是JS中进行异步编程的新解决方案(旧方案是单纯使用回调函数)  2.具体表达 从语法上来说:Promise是一个构造函数 从功能上来说:Promise对象用来封装一个异步操作并可以获取其成功&#x2F;失败的结果值  优点 指定回调函数的方式更加灵活   旧的:必须在启动异步任务前指定 promise:启动异步任务&#x3D;&gt;返回pr">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fanaidi.gitee.io/Promise/Promise%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0_promise%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png">
+<meta property="article:published_time" content="2021-10-12T02:41:07.000Z">
+<meta property="article:modified_time" content="2021-10-12T10:50:04.790Z">
+<meta property="article:author" content="Jiang Fan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fanaidi.gitee.io/Promise/Promise%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0_promise%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png">
+
+
+<link rel="canonical" href="https://fanaidi.gitee.io/2021/10/12/Promise/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;fanaidi.gitee.io&#x2F;2021&#x2F;10&#x2F;12&#x2F;Promise&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;10&#x2F;12&#x2F;Promise&#x2F;&quot;,&quot;title&quot;:&quot;Promise&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Promise | Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Promise%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">Promise简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%8A%BD%E8%B1%A1%E8%A1%A8%E8%BE%BE"><span class="nav-number">1.1.</span> <span class="nav-text">1.抽象表达</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%85%B7%E4%BD%93%E8%A1%A8%E8%BE%BE"><span class="nav-number">1.2.</span> <span class="nav-text">2.具体表达</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%98%E7%82%B9"><span class="nav-number">1.3.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#promise%E7%9A%84%E7%8A%B6%E6%80%81%E6%94%B9%E5%8F%98"><span class="nav-number">1.4.</span> <span class="nav-text">promise的状态改变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%80%BC"><span class="nav-number">1.5.</span> <span class="nav-text">Promise对象的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%B5%81%E7%A8%8B"><span class="nav-number">1.6.</span> <span class="nav-text">Promise的基本流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">1.7.</span> <span class="nav-text">Promise的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#API"><span class="nav-number">1.7.1.</span> <span class="nav-text">API</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Promise%E7%9A%84%E5%87%A0%E4%B8%AA%E5%85%B3%E9%94%AE%E9%97%AE%E9%A2%98"><span class="nav-number">1.8.</span> <span class="nav-text">Promise的几个关键问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#async"><span class="nav-number">2.</span> <span class="nav-text">async</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#asyn%E5%87%BD%E6%95%B0"><span class="nav-number">2.1.</span> <span class="nav-text">asyn函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#await%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">await表达式</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jiang Fan"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jiang Fan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fanaidi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fanaidi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1134672199@qq.com" title="E-Mail → mailto:1134672199@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fanaidi.gitee.io/2021/10/12/Promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jiang Fan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Promise
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-10-12 10:41:07 / 修改时间：18:50:04" itemprop="dateCreated datePublished" datetime="2021-10-12T10:41:07+08:00">2021-10-12</time>
+    </span>
+
+  
+    <span id="/2021/10/12/Promise/" class="post-meta-item leancloud_visitors" data-flag-title="Promise" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Promise简介"><a href="#Promise简介" class="headerlink" title="Promise简介"></a>Promise简介</h1><h2 id="1-抽象表达"><a href="#1-抽象表达" class="headerlink" title="1.抽象表达"></a>1.抽象表达</h2><ul>
+<li>promise是一门新的技术</li>
+<li>promise是JS中进行异步编程的新解决方案(旧方案是单纯使用回调函数)</li>
+</ul>
+<h2 id="2-具体表达"><a href="#2-具体表达" class="headerlink" title="2.具体表达"></a>2.具体表达</h2><ul>
+<li>从语法上来说:Promise是一个构造函数</li>
+<li>从功能上来说:Promise对象用来封装一个异步操作并可以获取其成功/失败的结果值</li>
+</ul>
+<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol>
+<li>指定回调函数的方式更加灵活</li>
+</ol>
+<blockquote>
+<p>旧的:必须在启动异步任务前指定</p>
+<p>promise:启动异步任务=&gt;返回promise对象=&gt;给promise对象绑定回调函数(甚至可以在异步任务结束后指定多个)</p>
+</blockquote>
+<ol start="2">
+<li>支持链式调用,可以解决回调地狱问题</li>
+</ol>
+<blockquote>
+<p>1.什么是回调地狱?</p>
+<p>​    回调函数嵌套调用,外部回调函数异步执行的结果是嵌套的回调执行的条件</p>
+<p>2.回调地狱的缺点?</p>
+<p>​    不便于阅读,不便于异常处理</p>
+<p>3.解决方案?</p>
+<p>​    promise链式调用</p>
+<p>4.终极解决方案?</p>
+<p>​    promise +async/await</p>
+</blockquote>
+<h2 id="promise的状态改变"><a href="#promise的状态改变" class="headerlink" title="promise的状态改变"></a>promise的状态改变</h2><blockquote>
+<p>实例对象中的一个属性: <strong>PromiseState</strong></p>
+<p>有三个值,分别是:</p>
+<p>pending:未决定的</p>
+<p>resolved/fullfilled 成功</p>
+<p>rejected 失败</p>
+</blockquote>
+<ol>
+<li>pending变为resolve</li>
+<li>pending变为reject</li>
+</ol>
+<blockquote>
+<p>说明:只有这2种,且一个promise对象只能改变一次</p>
+<p>无论变为成功还是失败,都会有一个结果数据</p>
+<p>成功的结果数据一般称为value,失败的结果数据一般称为reason</p>
+</blockquote>
+<h2 id="Promise对象的值"><a href="#Promise对象的值" class="headerlink" title="Promise对象的值"></a>Promise对象的值</h2><blockquote>
+<p>实例对象的另一个属性 PromiseResult</p>
+<p>保存着异步任务<strong>成功/失败</strong>的结果</p>
+<p><strong>resolve</strong>,<strong>reject</strong>这两个对象可以对<strong>PromiseResult</strong>进行修改</p>
+</blockquote>
+<h2 id="Promise的基本流程"><a href="#Promise的基本流程" class="headerlink" title="Promise的基本流程"></a>Promise的基本流程</h2><p><img src="/Promise/Promise%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0_promise%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B.png"></p>
+<h2 id="Promise的使用"><a href="#Promise的使用" class="headerlink" title="Promise的使用"></a>Promise的使用</h2><h3 id="API"><a href="#API" class="headerlink" title="API"></a>API</h3><ol>
+<li>Promise构造函数:Promise(excutor){}<ol>
+<li>excutor函数: 执行器(resolve,reject)=&gt;{}</li>
+<li>resolve函数:内部定义成功时我们调用的函数 value=&gt;{}</li>
+<li>reject函数: 内部定义失败时我们调用的函数 reason=&gt;{}</li>
+<li>说明:executor会在Promise内部立即同步调用,异步操作在执行器中执行</li>
+</ol>
+</li>
+<li> Promise.prototype.then方法:(onResolved,onRejected)=&gt;{}</li>
+<li>onResolved函数:成功的回调函数(value)=&gt;{}</li>
+<li>onRejected函数:失败的回调函数(reason)=&gt;{}</li>
+<li>说明:指定用于得到成功value的成功回调和用于得到失败reason的失败回调,返回一个新的promise对象</li>
+<li>Promise.prototype.catch方法:(onRejected)=&gt;{}<ol>
+<li>onRejected函数:失败的回调函数(reason)=&gt;{}</li>
+<li>说明:then()的语法糖,相当于then(undefined,onRejected)</li>
+</ol>
+</li>
+<li>Promise.resolve方法:(value)=&gt;{}<ol>
+<li>value:成功的数据或promise对象</li>
+<li>说明:返回一个成功的promise对象</li>
+</ol>
+</li>
+<li>Promise.reject方法:(reason)=&gt;{}<ol>
+<li>reason:失败的原因</li>
+<li>说明:返回一个失败的promise对象</li>
+</ol>
+</li>
+<li>Promise.all方法:(promises)=&gt;{}<ol>
+<li>promises:包含n个promise的数组</li>
+<li>说明:返回一个新的promise,只有所有的promise都成功才成功,只要有一个失败了就直接失败</li>
+</ol>
+</li>
+<li>Promise.race方法:(promises)=&gt;{}<ol>
+<li>promises:包含n个promise的数组</li>
+<li>说明:返回一个新的promise,第一个完成的promise的结果状态就是最终的结果状态 </li>
+</ol>
+</li>
+</ol>
+<h2 id="Promise的几个关键问题"><a href="#Promise的几个关键问题" class="headerlink" title="Promise的几个关键问题"></a>Promise的几个关键问题</h2><ol>
+<li><p>如何改变promise的状态</p>
+<ol>
+<li>resolve(value):如果当前是pending就会变为resolved</li>
+<li>rejected(reason):如果当前是pending就会变为rejected</li>
+<li>抛出异常:如果当前是pending就会变为rejected</li>
+</ol>
+</li>
+<li><p>一个promise指定多个成功/失败回调函数,都会调用吗?</p>
+<ol>
+<li>当promise改变为对应状态时都会调用</li>
+</ol>
+</li>
+<li><p>改变promise状态和指定回调函数谁先谁后?</p>
+<ol>
+<li>都有可能,正常情况下是先指定回调再改变状态,但也可以先改状态再指定回调</li>
+<li>如何先改状态再指定回调?<ol>
+<li>在执行器中直接调用resolve()/reject()</li>
+<li>延迟更长时间再调用then()</li>
+</ol>
+</li>
+<li>什么时候才能得到数据?<ol>
+<li>如果先指定的回调,那当状态发生改变时,回调函数就会调用,得到数据</li>
+<li>如果先改变的状态,那当指定回调时,回调函数就会调用,得到数据</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>promise.then()返回的新promise的结果状态由什么决定?</p>
+<ol>
+<li>简单表达:由then()指定的回调函数执行的结果决定</li>
+<li>详细表达:<ol>
+<li>如果抛出异常, 新 promise 变为 rejected, reason 为抛出的异常</li>
+<li>如果返回的是非 promise 的任意值, 新 promise 变为 resolved, value 为返回的值</li>
+<li>如果返回的是另一个新 promise, 此 promise 的结果就会成为新 promise 的结果</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>promise 如何串连多个操作任务?</p>
+<ol>
+<li>promise 的 then()返回一个新的 promise, 可以开成 then()的链式调用</li>
+<li>通过 then 的链式调用串连多个同步/异步任务,这样就能用<code>then()</code>将多个同步或异步操作串联成一个同步队列</li>
+</ol>
+</li>
+<li><p>promise异常穿透</p>
+<ol>
+<li><p>当使用 promise 的 then 链式调用时, 可以在最后指定失败的回调</p>
+</li>
+<li><p>前面任何操作出了异常, 都会传到最后失败的回调中处理</p>
+<blockquote>
+<p> 注:可以在每个then()的第二个回调函数中进行err处理,也可以利用异常穿透特性,到最后用<code>catch</code>去承接统一处理,两者一起用时,前者会生效(因为err已经将其处理,就不会再往下穿透)而走不到后面的catch</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li><p>中断promise链</p>
+<ol>
+<li>当使用promise的then链式调用时,在中间中断,不再调用后面的回调函数</li>
+<li>办法:在回调函数中返回一个pending状态的promise对象</li>
+</ol>
+</li>
+</ol>
+<h1 id="async"><a href="#async" class="headerlink" title="async"></a>async</h1><h2 id="asyn函数"><a href="#asyn函数" class="headerlink" title="asyn函数"></a>asyn函数</h2><ol>
+<li>函数的返回值为promise对象</li>
+<li>promise对象的结果由async函数执行的返回值决定</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">			<span class="comment">//和then的返回规则一样</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">				<span class="comment">//1.如果返回值是一个非Promise类型的数据</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">//return 111;</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">//2.如果返回的是一个Promise对象</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">// return new Promise((resolve,reject)=&gt;&#123;</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">// 	//resolve(&quot;success&quot;);</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">// 	reject(&quot;error&quot;);</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">// &#125;)</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">//3.抛出异常</span></span></span><br><span class="line"><span class="javascript">				<span class="keyword">throw</span> <span class="string">&quot;错误&quot;</span>;</span></span><br><span class="line"><span class="javascript">			&#125;</span></span><br><span class="line"><span class="javascript">			<span class="keyword">let</span> result = main();</span></span><br><span class="line"><span class="javascript">			<span class="built_in">console</span>.log(result);</span></span><br><span class="line"><span class="javascript">		</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="await表达式"><a href="#await表达式" class="headerlink" title="await表达式"></a>await表达式</h2><ol>
+<li>await右侧的表达式一般为promise对象,但也可以是其他的值</li>
+<li>如果表达式是promise对象,await返回的是promise成功的值</li>
+<li>如果表达式是其他值,直接将此值作为await的返回值</li>
+</ol>
+<p><strong>注意:</strong></p>
+<ol>
+<li>await必须写在async函数中,但async函数中可以没有await</li>
+<li>如果await的promise失败了,就会抛出异常,需要通过try…catch捕获处理</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">			<span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">main</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">				<span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span></span><br><span class="line"><span class="javascript">					<span class="comment">// resolve(&quot;OK&quot;);</span></span></span><br><span class="line"><span class="javascript">					reject(<span class="string">&quot;error&quot;</span>);</span></span><br><span class="line"><span class="javascript">				&#125;);</span></span><br><span class="line"><span class="javascript">				<span class="comment">//1.右侧为Promise的情况</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">// let res = await p;</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">//2.右侧为其他类型的数据</span></span></span><br><span class="line"><span class="javascript">				<span class="comment">// let res2 = await 20;</span></span></span><br><span class="line"><span class="javascript">				</span></span><br><span class="line"><span class="javascript">				<span class="comment">//3.如果promise是失败的状态</span></span></span><br><span class="line"><span class="javascript">				<span class="keyword">try</span>&#123;</span></span><br><span class="line"><span class="javascript">					<span class="keyword">let</span> res3 = <span class="keyword">await</span> p;</span></span><br><span class="line"><span class="javascript">				&#125;<span class="keyword">catch</span>(e)&#123;</span></span><br><span class="line"><span class="javascript">					<span class="built_in">console</span>.log(e);</span></span><br><span class="line"><span class="javascript">				&#125;</span></span><br><span class="line"><span class="javascript">			&#125;</span></span><br><span class="line"><span class="javascript">			main();</span></span><br><span class="line"><span class="javascript">		</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat.png" alt="Jiang Fan 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/zfb.png" alt="Jiang Fan 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/06/Redis/" rel="prev" title="Redis">
+                  <i class="fa fa-chevron-left"></i> Redis
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/12/axios/" rel="next" title="axios">
+                  axios <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiang Fan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{&quot;enable&quot;:true,&quot;app_id&quot;:&quot;gMVzIRGEv3BRJOTffcvYCGdd-gzGzoHsz&quot;,&quot;app_key&quot;:&quot;fqSSm447ee6AhUtlBGDWA6hA&quot;,&quot;server_url&quot;:null,&quot;security&quot;:false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{&quot;enable&quot;:true,&quot;repo&quot;:&quot;fanaidi&#x2F;utterances&quot;,&quot;issue_term&quot;:&quot;pathname&quot;,&quot;theme&quot;:&quot;github-light&quot;}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>

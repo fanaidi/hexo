@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;fanaidi.gitee.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:&quot;valine&quot;,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Maven的核心概念 约定的目录结构 POM 坐标 依赖 仓库 生命周期 继承 聚合  1.约定的目录结构目录结构  根目录:工程名 src目录:源码 pom.xml:Maven工程的核心配置文件 main目录:存放主程序 test目录:存放测试程序 java目录:存放java源文件 resources:存放框架或其他工具的配置文件  为什么要遵守约定的目录结构? 1.Maven要负责我们这个项目">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maven">
+<meta property="og:url" content="https://fanaidi.gitee.io/2021/09/30/Maven/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="Maven的核心概念 约定的目录结构 POM 坐标 依赖 仓库 生命周期 继承 聚合  1.约定的目录结构目录结构  根目录:工程名 src目录:源码 pom.xml:Maven工程的核心配置文件 main目录:存放主程序 test目录:存放测试程序 java目录:存放java源文件 resources:存放框架或其他工具的配置文件  为什么要遵守约定的目录结构? 1.Maven要负责我们这个项目">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://fanaidi.gitee.io/blogimgs/Maven/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://fanaidi.gitee.io/blogimgs/Maven/compile%E5%92%8Ctest%E4%BE%9D%E8%B5%96.png">
+<meta property="og:image" content="https://fanaidi.gitee.io/blogimgs/Maven/provided%E8%8C%83%E5%9B%B4%E7%9A%84%E4%BE%9D%E8%B5%96.png">
+<meta property="article:published_time" content="2021-09-30T02:35:36.000Z">
+<meta property="article:modified_time" content="2021-10-02T02:32:33.908Z">
+<meta property="article:author" content="Jiang Fan">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fanaidi.gitee.io/blogimgs/Maven/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png">
+
+
+<link rel="canonical" href="https://fanaidi.gitee.io/2021/09/30/Maven/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;fanaidi.gitee.io&#x2F;2021&#x2F;09&#x2F;30&#x2F;Maven&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;09&#x2F;30&#x2F;Maven&#x2F;&quot;,&quot;title&quot;:&quot;Maven&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Maven | Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven%E7%9A%84%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">Maven的核心概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-%E7%BA%A6%E5%AE%9A%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">1.约定的目录结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E9%81%B5%E5%AE%88%E7%BA%A6%E5%AE%9A%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.2.</span> <span class="nav-text">为什么要遵守约定的目录结构?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8Maven%E5%91%BD%E4%BB%A4"><span class="nav-number">3.</span> <span class="nav-text">常用Maven命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.1.</span> <span class="nav-text">常用命令</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-POM"><span class="nav-number">4.</span> <span class="nav-text">2.POM</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E5%9D%90%E6%A0%87gav"><span class="nav-number">5.</span> <span class="nav-text">3.坐标gav</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E4%BE%9D%E8%B5%96"><span class="nav-number">6.</span> <span class="nav-text">4.依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-compile%E8%8C%83%E5%9B%B4%E4%BE%9D%E8%B5%96"><span class="nav-number">6.1.</span> <span class="nav-text">1.compile范围依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-test%E8%8C%83%E5%9B%B4%E4%BE%9D%E8%B5%96"><span class="nav-number">6.2.</span> <span class="nav-text">2.test范围依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-provide%E8%8C%83%E5%9B%B4%E4%BE%9D%E8%B5%96"><span class="nav-number">6.3.</span> <span class="nav-text">3.provide范围依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BE%9D%E8%B5%96%E7%9A%84%E4%BC%A0%E9%80%92%E6%80%A7"><span class="nav-number">6.4.</span> <span class="nav-text">4.依赖的传递性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E4%BE%9D%E8%B5%96%E7%9A%84%E6%8E%92%E9%99%A4"><span class="nav-number">6.5.</span> <span class="nav-text">5.依赖的排除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E4%BE%9D%E8%B5%96%E7%9A%84%E5%8E%9F%E5%88%99"><span class="nav-number">6.6.</span> <span class="nav-text">6.依赖的原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E7%BB%9F%E4%B8%80%E7%AE%A1%E7%90%86%E4%BE%9D%E8%B5%96%E7%9A%84%E7%89%88%E6%9C%AC"><span class="nav-number">6.7.</span> <span class="nav-text">7.统一管理依赖的版本</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E4%BB%93%E5%BA%93"><span class="nav-number">7.</span> <span class="nav-text">5.仓库</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">8.</span> <span class="nav-text">6.生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B%E7%9A%84%E5%90%84%E4%B8%AA%E7%8E%AF%E8%8A%82"><span class="nav-number">8.0.1.</span> <span class="nav-text">构建过程的各个环节</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-%E7%BB%A7%E6%89%BF"><span class="nav-number">9.</span> <span class="nav-text">7.继承</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-%E8%81%9A%E5%90%88"><span class="nav-number">10.</span> <span class="nav-text">8.聚合</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jiang Fan"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jiang Fan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fanaidi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fanaidi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1134672199@qq.com" title="E-Mail → mailto:1134672199@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fanaidi.gitee.io/2021/09/30/Maven/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jiang Fan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Maven
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-09-30 10:35:36" itemprop="dateCreated datePublished" datetime="2021-09-30T10:35:36+08:00">2021-09-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-02 10:32:33" itemprop="dateModified" datetime="2021-10-02T10:32:33+08:00">2021-10-02</time>
+      </span>
+
+  
+    <span id="/2021/09/30/Maven/" class="post-meta-item leancloud_visitors" data-flag-title="Maven" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Maven的核心概念"><a href="#Maven的核心概念" class="headerlink" title="Maven的核心概念"></a>Maven的核心概念</h1><ol>
+<li>约定的目录结构</li>
+<li>POM</li>
+<li>坐标</li>
+<li>依赖</li>
+<li>仓库</li>
+<li>生命周期</li>
+<li>继承</li>
+<li>聚合</li>
+</ol>
+<h1 id="1-约定的目录结构"><a href="#1-约定的目录结构" class="headerlink" title="1.约定的目录结构"></a>1.约定的目录结构</h1><h2 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h2><p><img src="https://fanaidi.gitee.io/blogimgs/Maven/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.png" alt="image-20210930104040854"></p>
+<blockquote>
+<p>根目录:工程名</p>
+<p>src目录:源码</p>
+<p>pom.xml:Maven工程的核心配置文件</p>
+<p>main目录:存放主程序</p>
+<p>test目录:存放测试程序</p>
+<p>java目录:存放java源文件</p>
+<p>resources:存放框架或其他工具的配置文件</p>
+</blockquote>
+<h2 id="为什么要遵守约定的目录结构"><a href="#为什么要遵守约定的目录结构" class="headerlink" title="为什么要遵守约定的目录结构?"></a>为什么要遵守约定的目录结构?</h2><blockquote>
+<p>1.Maven要负责我们这个项目的自动化构建,以编译为例,Maven要想自动进行编译,那么它必须知道Java源文件保存在哪里</p>
+<p>2.自定义文件想要让框架或工具知道,有两种方法.</p>
+<p>​    (1)以配置的方式明确告诉框架</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:spring-context.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    (2)遵守框架内部已经存在的约定</p>
+<p>​        例:log4j.properties或log4j.xml</p>
+<p>3.约定&gt;配置&gt;编码</p>
+</blockquote>
+<h1 id="常用Maven命令"><a href="#常用Maven命令" class="headerlink" title="常用Maven命令"></a>常用Maven命令</h1><blockquote>
+<p>注意:执行与构建过程相关的Maven命令,必须进入pom.xml所在的目录.</p>
+<p>与构建过程相关:编译 测试 打包…</p>
+</blockquote>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><blockquote>
+<p>mvn clean:清理</p>
+<p>mvn compile:编译主程序</p>
+<p>mvn test-compile:编译测试程序</p>
+<p>mvn test:执行测试</p>
+<p>mvn package:打包</p>
+</blockquote>
+<h1 id="2-POM"><a href="#2-POM" class="headerlink" title="2.POM"></a>2.POM</h1><blockquote>
+<p>含义:Project Object Model项目对象模型</p>
+<p>pom.xml对应Maven工程是核心配置文件,与构建过程相关的一切设置都在这个文件中进行配置.</p>
+</blockquote>
+<h1 id="3-坐标gav"><a href="#3-坐标gav" class="headerlink" title="3.坐标gav"></a>3.坐标gav</h1><blockquote>
+<p>1.Maven中的坐标使用下面三个向量在仓库中唯一定位一个Maven工程</p>
+<p>​    1.<strong>g</strong>roupid: 公司或组织域名倒序+项目名</p>
+<p>​    2.<strong>a</strong>rtifactid:模块名</p>
+<p>​    3.<strong>v</strong>ersion:版本</p>
+<p>2.Maven工程的坐标与仓库中路径的对应关系</p>
+<p>​    坐标:</p>
+<pre><code>  &lt;groupId&gt;org.springframework&lt;/groupId&gt;
+
+  &lt;artifactId&gt;spring-core&lt;/artifactId&gt;  
+
+  &lt;version&gt;5.3.1&lt;/version&gt;
+</code></pre>
+<p>​    路径: org\springframework\spring-core\5.3.1</p>
+</blockquote>
+<h1 id="4-依赖"><a href="#4-依赖" class="headerlink" title="4.依赖"></a>4.依赖</h1><blockquote>
+<p>1.Maven解析依赖信息时会到本地仓库中查找被依赖的jar包</p>
+<p>​    对于我们自己开发的Maven工程,使用<strong>mvn install</strong>命令安装后就可以进入仓库.</p>
+</blockquote>
+<h2 id="1-compile范围依赖"><a href="#1-compile范围依赖" class="headerlink" title="1.compile范围依赖"></a>1.compile范围依赖</h2><p><img src="https://fanaidi.gitee.io/blogimgs/Maven/compile%E5%92%8Ctest%E4%BE%9D%E8%B5%96.png" alt="image-20210930145949011"></p>
+<blockquote>
+<p>对主程序是否有效:    有效</p>
+<p>对测试程序是否有效:有效</p>
+<p>是否参与打包:参与</p>
+</blockquote>
+<h2 id="2-test范围依赖"><a href="#2-test范围依赖" class="headerlink" title="2.test范围依赖"></a>2.test范围依赖</h2><blockquote>
+<p>对主程序是否有效:无效</p>
+<p>对测试程序是否有效:有效</p>
+<p>是否参与打包:不参与</p>
+<p>典型的例子:junit</p>
+</blockquote>
+<h2 id="3-provide范围依赖"><a href="#3-provide范围依赖" class="headerlink" title="3.provide范围依赖"></a>3.provide范围依赖</h2><p><img src="https://fanaidi.gitee.io/blogimgs/Maven/provided%E8%8C%83%E5%9B%B4%E7%9A%84%E4%BE%9D%E8%B5%96.png"></p>
+<blockquote>
+<p>对主程序是否有效:有效</p>
+<p>对测试程序是否有效:有效</p>
+<p>是否参与打包:不参与</p>
+<p>是否参与部署:不参与</p>
+<p>典型的例子:servlet-api </p>
+</blockquote>
+<h2 id="4-依赖的传递性"><a href="#4-依赖的传递性" class="headerlink" title="4.依赖的传递性"></a>4.依赖的传递性</h2><blockquote>
+<p>好处:可以传递的依赖不必在每个模块工程中都重复声明,在”最下面”的工程中依赖-次即可。</p>
+<p>注意:非compile范围的依赖不能传递。所以在各个工程模块中,如果有需要就得重复声明依赖。</p>
+</blockquote>
+<h2 id="5-依赖的排除"><a href="#5-依赖的排除" class="headerlink" title="5.依赖的排除"></a>5.依赖的排除</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>commons-logging<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-依赖的原则"><a href="#6-依赖的原则" class="headerlink" title="6.依赖的原则"></a>6.依赖的原则</h2><blockquote>
+<p>作用：解决模块工程之间的jar包冲突问题</p>
+<p>遵循路径最短者原则</p>
+<p>路径相同时,先声明者优先</p>
+</blockquote>
+<h2 id="7-统一管理依赖的版本"><a href="#7-统一管理依赖的版本" class="headerlink" title="7.统一管理依赖的版本"></a>7.统一管理依赖的版本</h2><p>配置方式:使用properties标签内使用自定义标签统一声明版本号</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">	 	<span class="tag">&lt;<span class="name">aa.bb.cc</span>&gt;</span>4.0.0.RELEASE<span class="tag">&lt;/<span class="name">aa.bb.cc</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在需要统一版本的位置,使用${自定义标签名}引用声明的版本号</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;aa.bb.cc&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其实properties标签配合自定义标签声明数据的配置并不是只能用于声明依赖的版本号。凡是需要统一声明后再弓|用的场合都可以使用</p>
+<h1 id="5-仓库"><a href="#5-仓库" class="headerlink" title="5.仓库"></a>5.仓库</h1><blockquote>
+<p>仓库的分类</p>
+<ul>
+<li><p>本地仓库：当前电脑上部署的仓库目录，为当前电脑上多有Maven工程服务</p>
+</li>
+<li><p>远程仓库</p>
+<ul>
+<li>私服：搭建在局域网环境中,为局域网范围内的所有Maven工程服务</li>
+<li>中央仓库：架设在Internet上,为全世界所有Maven工程服务</li>
+<li>中央仓库镜像：为了分担中央仓库的流量,提升用户访问速度</li>
+</ul>
+<p>仓库中保存的内容：Maven工程</p>
+<ul>
+<li>Maven自身所需的插件</li>
+<li>第三方框架或工具的jar包</li>
+<li>自己开发的Maven工程</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h1 id="6-生命周期"><a href="#6-生命周期" class="headerlink" title="6.生命周期"></a>6.生命周期</h1><blockquote>
+<p>1.各个构建环节执行的顺序:不能打乱顺序,必须按照既定的正确顺序来执行</p>
+<p>2.Maven的核心程序中定义了抽象的生命周期,生命周期中各个阶段的具体任务是由插件来完成的.</p>
+<p>3.Maven的核心程序为了更好的实现自动化构建,按照这一特点执行生命周期中的各个阶段:不论现在要执行生命周期中的哪一个阶段,都是从这个生命周期最初的位置开始执行</p>
+<p>4.插件和目标</p>
+<p>​    生命周期的各个阶段仅仅定义了要执行的任务是什么.</p>
+<p>​    各个阶段和插件的目标是对应的.</p>
+<p>​    相似的目标由特定的插件完成</p>
+</blockquote>
+<h3 id="构建过程的各个环节"><a href="#构建过程的各个环节" class="headerlink" title="构建过程的各个环节"></a>构建过程的各个环节</h3><ol>
+<li>清理:将以前编译得到的旧的class字节码文件删除,为下一-次编译做准备</li>
+<li>编译:将Java源程序编程成class字节码文件</li>
+<li>测试:自动测试，自动调用junit程序</li>
+<li>报告:测试程序执行的结果</li>
+<li>打包:动态Web_ I程打war包, Java工程打jar包</li>
+<li>安装: Maven特定的概念一将打包得到的文件复制到 “仓库”中的指定位置</li>
+<li>部署:将动态Web.工程生成的war包复制到Servlet容器的指定目录下,使其可以运行</li>
+</ol>
+<h1 id="7-继承"><a href="#7-继承" class="headerlink" title="7.继承"></a>7.继承</h1><blockquote>
+<p>目的:统一管理各个模块工程中对junit依赖的版本</p>
+</blockquote>
+<h1 id="8-聚合"><a href="#8-聚合" class="headerlink" title="8.聚合"></a>8.聚合</h1><blockquote>
+<p>作用：一键安装各个模块工程</p>
+<p>配置方式：在一个”总的聚合工程“中配置各个参与聚合的模块</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置聚合 --&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modules</span>&gt;</span></span><br><span class="line">		<span class="comment">&lt;!-- 指定各个子工程的相对路径 --&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">module</span>&gt;</span>../HelloFriend<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">module</span>&gt;</span>../MakeFriends<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">module</span>&gt;</span>../Hello<span class="tag">&lt;/<span class="name">module</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">modules</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat.png" alt="Jiang Fan 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/zfb.png" alt="Jiang Fan 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/25/SpringMVC/" rel="prev" title="SpringMVC">
+                  <i class="fa fa-chevron-left"></i> SpringMVC
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/02/SpringBoot/" rel="next" title="SpringBoot">
+                  SpringBoot <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiang Fan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{&quot;enable&quot;:true,&quot;app_id&quot;:&quot;gMVzIRGEv3BRJOTffcvYCGdd-gzGzoHsz&quot;,&quot;app_key&quot;:&quot;fqSSm447ee6AhUtlBGDWA6hA&quot;,&quot;server_url&quot;:null,&quot;security&quot;:false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{&quot;enable&quot;:true,&quot;repo&quot;:&quot;fanaidi&#x2F;utterances&quot;,&quot;issue_term&quot;:&quot;pathname&quot;,&quot;theme&quot;:&quot;github-light&quot;}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
