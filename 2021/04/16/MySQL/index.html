@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;fanaidi.gitee.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:&quot;valine&quot;,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="[TOC]">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL">
+<meta property="og:url" content="https://fanaidi.gitee.io/2021/04/16/MySQL/index.html">
+<meta property="og:site_name" content="Blog">
+<meta property="og:description" content="[TOC]">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-16T00:37:30.000Z">
+<meta property="article:modified_time" content="2021-10-14T01:19:35.037Z">
+<meta property="article:author" content="Jiang Fan">
+<meta property="article:tag" content="MyBatis">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://fanaidi.gitee.io/2021/04/16/MySQL/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;fanaidi.gitee.io&#x2F;2021&#x2F;04&#x2F;16&#x2F;MySQL&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;04&#x2F;16&#x2F;MySQL&#x2F;&quot;,&quot;title&quot;:&quot;MySQL&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>MySQL | Blog</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Blog</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DBMS-SQL-DB"><span class="nav-number">1.</span> <span class="nav-text">DBMS SQL DB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DBMS"><span class="nav-number">1.1.</span> <span class="nav-text">DBMS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DB"><span class="nav-number">1.2.</span> <span class="nav-text">DB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL"><span class="nav-number">1.3.</span> <span class="nav-text">SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E7%B3%BB"><span class="nav-number">1.4.</span> <span class="nav-text">关系</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A1%A8"><span class="nav-number">2.</span> <span class="nav-text">表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">SQL语句的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DQL"><span class="nav-number">3.1.</span> <span class="nav-text">DQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DML"><span class="nav-number">3.2.</span> <span class="nav-text">DML</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DDL"><span class="nav-number">3.3.</span> <span class="nav-text">DDL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCL"><span class="nav-number">3.4.</span> <span class="nav-text">TCL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DCL"><span class="nav-number">3.5.</span> <span class="nav-text">DCL</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text">MySQL常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5MySQL"><span class="nav-number">4.1.</span> <span class="nav-text">连接MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E8%BF%9E%E6%8E%A5%E5%88%B0%E6%9C%AC%E6%9C%BA%E7%9A%84MySQL"><span class="nav-number">4.1.1.</span> <span class="nav-text">1.连接到本机的MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E8%BF%9E%E6%8E%A5%E5%88%B0%E8%BF%9C%E7%A8%8B%E4%B8%BB%E6%9C%BA%E4%B8%8A%E7%9A%84MySQL"><span class="nav-number">4.1.2.</span> <span class="nav-text">2.连接到远程主机上的MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%80%80%E5%87%BAMySQL%E5%91%BD%E4%BB%A4"><span class="nav-number">4.1.3.</span> <span class="nav-text">3.退出MySQL命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.2.</span> <span class="nav-text">查看数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.3.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.4.</span> <span class="nav-text">使用数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%8B%E7%9A%84%E8%A1%A8"><span class="nav-number">4.5.</span> <span class="nav-text">查看当前数据库下的表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE"><span class="nav-number">4.6.</span> <span class="nav-text">初始化数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%A1%A8%E7%BB%93%E6%9E%84"><span class="nav-number">4.7.</span> <span class="nav-text">查看表结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E4%BD%BF%E7%94%A8%E7%9A%84%E6%98%AF%E5%93%AA%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">4.8.</span> <span class="nav-text">查看当前使用的是哪个数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8Bmysql%E7%9A%84%E7%89%88%E6%9C%AC%E5%8F%B7"><span class="nav-number">4.9.</span> <span class="nav-text">查看mysql的版本号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9D%9F%E4%B8%80%E6%9D%A1%E8%AF%AD%E5%8F%A5"><span class="nav-number">4.10.</span> <span class="nav-text">结束一条语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%88%9B%E5%BB%BA%E8%A1%A8%E7%9A%84%E8%AF%AD%E5%8F%A5"><span class="nav-number">4.11.</span> <span class="nav-text">查看创建表的语句</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E8%AF%AD%E5%8F%A5"><span class="nav-number">5.</span> <span class="nav-text">SQL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E7%9A%84%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5%EF%BC%88DQL%EF%BC%89"><span class="nav-number">5.1.</span> <span class="nav-text">简单的查询语句（DQL）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%91%98%E5%B7%A5%E7%9A%84%E5%B9%B4%E8%96%AA"><span class="nav-number">5.1.1.</span> <span class="nav-text">查询员工的年薪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%99%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%88%97%E9%87%8D%E5%91%BD%E5%90%8D"><span class="nav-number">5.1.2.</span> <span class="nav-text">给查询结果的列重命名</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.2.</span> <span class="nav-text">条件查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#is-null-%E5%92%8C-is-not-null"><span class="nav-number">5.2.1.</span> <span class="nav-text">is null 和 is not null</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E7%B3%8A%E6%9F%A5%E8%AF%A2like"><span class="nav-number">5.2.2.</span> <span class="nav-text">模糊查询like</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8E%92%E5%BA%8Forder-by"><span class="nav-number">5.3.</span> <span class="nav-text">排序order by</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%87%BD%E6%95%B0"><span class="nav-number">5.4.</span> <span class="nav-text">分组函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ifnull%EF%BC%88%EF%BC%89"><span class="nav-number">5.4.1.</span> <span class="nav-text">ifnull（）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#count%EF%BC%88-%EF%BC%89%E5%92%8Ccount%EF%BC%88%E5%AD%97%E6%AE%B5%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">5.4.2.</span> <span class="nav-text">count（*）和count（字段）的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#group-by%E5%92%8Chaving"><span class="nav-number">5.5.</span> <span class="nav-text">group by和having</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F"><span class="nav-number">5.6.</span> <span class="nav-text">DQL语句的执行顺序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%BB%E9%99%A4%E9%87%8D%E5%A4%8D%EF%BC%88distinct%EF%BC%89"><span class="nav-number">5.7.</span> <span class="nav-text">去除重复（distinct）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">5.8.</span> <span class="nav-text">连接查询的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%90%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.9.</span> <span class="nav-text">子查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#union"><span class="nav-number">5.10.</span> <span class="nav-text">union</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#limit"><span class="nav-number">5.11.</span> <span class="nav-text">limit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E7%9A%84%E5%A4%8D%E5%88%B6"><span class="nav-number">5.12.</span> <span class="nav-text">表的复制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%A4%A7%E8%A1%A8"><span class="nav-number">5.13.</span> <span class="nav-text">删除大表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84%E7%BA%A6%E6%9D%9F"><span class="nav-number">5.14.</span> <span class="nav-text">常见的约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">5.15.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95"><span class="nav-number">5.16.</span> <span class="nav-text">索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%86%E5%9B%BE"><span class="nav-number">5.17.</span> <span class="nav-text">视图</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Jiang Fan"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Jiang Fan</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/fanaidi" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fanaidi" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:1134672199@qq.com" title="E-Mail → mailto:1134672199@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://fanaidi.gitee.io/2021/04/16/MySQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Jiang Fan">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-16 08:37:30" itemprop="dateCreated datePublished" datetime="2021-04-16T08:37:30+08:00">2021-04-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-14 09:19:35" itemprop="dateModified" datetime="2021-10-14T09:19:35+08:00">2021-10-14</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+        </span>
+    </span>
+
+  
+    <span id="/2021/04/16/MySQL/" class="post-meta-item leancloud_visitors" data-flag-title="MySQL" title="阅读次数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span class="leancloud-visitors-count"></span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>[TOC]</p>
+<span id="more"></span>
+
+<h1 id="DBMS-SQL-DB"><a href="#DBMS-SQL-DB" class="headerlink" title="DBMS SQL DB"></a>DBMS SQL DB</h1><h2 id="DBMS"><a href="#DBMS" class="headerlink" title="DBMS"></a>DBMS</h2><blockquote>
+<p>DataBase Management System(数据库管理系统)</p>
+<p>常见的有:MySQL Oracle</p>
+</blockquote>
+<h2 id="DB"><a href="#DB" class="headerlink" title="DB"></a>DB</h2><blockquote>
+<p>DataBase(数据库,数据库实际上在硬盘上以文件的形式存在)</p>
+</blockquote>
+<h2 id="SQL"><a href="#SQL" class="headerlink" title="SQL"></a>SQL</h2><blockquote>
+<p>Structured Query Language(结构化查询语言)</p>
+<p>SQL语句在执行的时候,实际上内部会先进行编译,然后再执行</p>
+</blockquote>
+<h2 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h2><blockquote>
+<p>DBMS-(执行)-&gt;SQL-(操作)-&gt;DB</p>
+</blockquote>
+<h1 id="表"><a href="#表" class="headerlink" title="表"></a>表</h1><blockquote>
+<p>表:table</p>
+<p>table是数据库的基本组成单元,所有的数据都以表格的形式组织,目的是可读性强</p>
+<p>一个表包含行和列:</p>
+<p>​    行:被称为数据/记录(data)</p>
+<p>​    列:被称为字段(column)</p>
+<p>每一个字段应该包含哪些属性?</p>
+<p>​    字段名、数据类型、相关的约束</p>
+</blockquote>
+<h1 id="SQL语句的分类"><a href="#SQL语句的分类" class="headerlink" title="SQL语句的分类"></a>SQL语句的分类</h1><h2 id="DQL"><a href="#DQL" class="headerlink" title="DQL"></a>DQL</h2><blockquote>
+<p>Data QueryLanguage(数据查询语言)</p>
+<p>查询语句,凡是select语句都是DQL</p>
+</blockquote>
+<h2 id="DML"><a href="#DML" class="headerlink" title="DML"></a>DML</h2><blockquote>
+<p>Data Manipulation Language(数据操纵语言)</p>
+<p>insert delete update,对表当中的数据进行增删改</p>
+</blockquote>
+<h2 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h2><blockquote>
+<p>Data Definition Language(数据定义语言)</p>
+<p>create drop alter,对表结构的增删改</p>
+</blockquote>
+<h2 id="TCL"><a href="#TCL" class="headerlink" title="TCL"></a>TCL</h2><blockquote>
+<p>Transaction control language（事务控制语言）</p>
+<p>commit提交事务 rollback回滚事务</p>
+</blockquote>
+<h2 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h2><blockquote>
+<p>数据控制语言</p>
+<p>grant授权、revoke撤销权限等</p>
+</blockquote>
+<h1 id="MySQL常用命令"><a href="#MySQL常用命令" class="headerlink" title="MySQL常用命令"></a>MySQL常用命令</h1><h2 id="连接MySQL"><a href="#连接MySQL" class="headerlink" title="连接MySQL"></a>连接MySQL</h2><h3 id="1-连接到本机的MySQL"><a href="#1-连接到本机的MySQL" class="headerlink" title="1.连接到本机的MySQL"></a>1.连接到本机的MySQL</h3><blockquote>
+<p>mysql -u root -p 密码</p>
+</blockquote>
+<h3 id="2-连接到远程主机上的MySQL"><a href="#2-连接到远程主机上的MySQL" class="headerlink" title="2.连接到远程主机上的MySQL"></a>2.连接到远程主机上的MySQL</h3><blockquote>
+<p>mysql -h 主机ip地址 -u root -p 密码 </p>
+</blockquote>
+<h3 id="3-退出MySQL命令"><a href="#3-退出MySQL命令" class="headerlink" title="3.退出MySQL命令"></a>3.退出MySQL命令</h3><blockquote>
+<p>exit</p>
+</blockquote>
+<h2 id="查看数据库"><a href="#查看数据库" class="headerlink" title="查看数据库"></a>查看数据库</h2><blockquote>
+<p>show databases;</p>
+</blockquote>
+<h2 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h2><blockquote>
+<p>create database 数据库名</p>
+</blockquote>
+<h2 id="使用数据库"><a href="#使用数据库" class="headerlink" title="使用数据库"></a>使用数据库</h2><blockquote>
+<p>user 数据库名</p>
+</blockquote>
+<h2 id="查看当前数据库下的表"><a href="#查看当前数据库下的表" class="headerlink" title="查看当前数据库下的表"></a>查看当前数据库下的表</h2><blockquote>
+<p>show tables</p>
+</blockquote>
+<h2 id="初始化数据"><a href="#初始化数据" class="headerlink" title="初始化数据"></a>初始化数据</h2><blockquote>
+<p>source sql文件路径</p>
+<p>注意：</p>
+<p>​    sql脚本中的数据量太大的时候，无法打开，请使用source命令完成初始化。</p>
+</blockquote>
+<h2 id="查看表结构"><a href="#查看表结构" class="headerlink" title="查看表结构"></a>查看表结构</h2><blockquote>
+<p>desc 表名;</p>
+</blockquote>
+<h2 id="查看当前使用的是哪个数据库"><a href="#查看当前使用的是哪个数据库" class="headerlink" title="查看当前使用的是哪个数据库"></a>查看当前使用的是哪个数据库</h2><blockquote>
+<p>select database();</p>
+</blockquote>
+<h2 id="查看mysql的版本号"><a href="#查看mysql的版本号" class="headerlink" title="查看mysql的版本号"></a>查看mysql的版本号</h2><blockquote>
+<p>select version();</p>
+</blockquote>
+<h2 id="结束一条语句"><a href="#结束一条语句" class="headerlink" title="结束一条语句"></a>结束一条语句</h2><blockquote>
+<p>\c</p>
+</blockquote>
+<h2 id="查看创建表的语句"><a href="#查看创建表的语句" class="headerlink" title="查看创建表的语句"></a>查看创建表的语句</h2><blockquote>
+<p>show create table 表名</p>
+</blockquote>
+<h1 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h1><h2 id="简单的查询语句（DQL）"><a href="#简单的查询语句（DQL）" class="headerlink" title="简单的查询语句（DQL）"></a>简单的查询语句（DQL）</h2><blockquote>
+<p>语法格式:</p>
+<p>​    select 字段名1，字段名2，字段名3，字段名4，… from 表名；</p>
+<p>注意：</p>
+<p>​    1.任何一条sql语句以’;’结尾</p>
+<p>​    2.sql语句不区分大小写</p>
+</blockquote>
+<h3 id="查询员工的年薪"><a href="#查询员工的年薪" class="headerlink" title="查询员工的年薪"></a>查询员工的年薪</h3><blockquote>
+<p>select ename,sal * 12 from emp;</p>
+<p><strong>注意:</strong></p>
+<p>​    字段可以参与数学运算</p>
+</blockquote>
+<h3 id="给查询结果的列重命名"><a href="#给查询结果的列重命名" class="headerlink" title="给查询结果的列重命名"></a>给查询结果的列重命名</h3><blockquote>
+<p>select ename,sal * 12 as yearsal from emp;</p>
+<p>别名中有中文:</p>
+<p>​    select ename,sal * 12 as ‘年薪’ from emp;</p>
+<p><strong>注意：</strong></p>
+<p>​    标准sql语句中要求字符串使用单引号括起来。虽然mysql支持双引号，尽量别用。</p>
+<p>​    as关键字可以省略</p>
+</blockquote>
+<h2 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h2><blockquote>
+<p>语法格式:</p>
+<p>​    select 字段1,字段2… from 表名 where 条件;</p>
+<p>执行顺序:</p>
+<p>​    先from,然后where,最后select</p>
+</blockquote>
+<h3 id="is-null-和-is-not-null"><a href="#is-null-和-is-not-null" class="headerlink" title="is null 和 is not null"></a>is null 和 is not null</h3><blockquote>
+<p>在数据库中，NULL不是一个值，代表什么也没有，为空。</p>
+<p>空不是一个值，不能用等号衡量。</p>
+<p>必须使用is null或者is not null </p>
+</blockquote>
+<h3 id="模糊查询like"><a href="#模糊查询like" class="headerlink" title="模糊查询like"></a>模糊查询like</h3><blockquote>
+<p>%代表任意多个字符，_代表任意一个字符</p>
+</blockquote>
+<h2 id="排序order-by"><a href="#排序order-by" class="headerlink" title="排序order by"></a>排序order by</h2><blockquote>
+<p>默认是升序</p>
+<p>asc表示升序</p>
+<p>desc表示降序</p>
+<p><strong>注意：</strong></p>
+<p>​    越靠前的字段越能起到主导作用。只有当前面的字段无法完成排序的时候，才会启用后面的字段。</p>
+</blockquote>
+<p>按照工资的降序排列，当工资相同的时候再按照名字的升序排列</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ename,sal <span class="keyword">from</span> emp <span class="keyword">order</span> <span class="keyword">by</span> sal <span class="keyword">desc</span> , ename <span class="keyword">asc</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="分组函数"><a href="#分组函数" class="headerlink" title="分组函数"></a>分组函数</h2><blockquote>
+<p>count  计数</p>
+<p>sum    求和</p>
+<p>avg    平均值</p>
+<p>max    最大值</p>
+<p>min    最小值</p>
+<p><strong>注意：</strong></p>
+<p>​    所有的分组函数都是对<strong>某一组</strong>数据进行操作的</p>
+<p>​    分组函数自动忽略NULL。</p>
+<p>​    只要有NULL参与的运算结果一定是NULL</p>
+<p>​    sum函数自动忽略NULL</p>
+<p><strong>分组函数不可以直接使用在where子句中</strong></p>
+<p>​    因为group by 是在where执行之后执行    </p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*找出工资总和？*/</span></span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">sum</span>(sal) <span class="keyword">from</span> emp;</span><br><span class="line"><span class="comment">/*找出最高工资？*/</span></span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">max</span>(sal) <span class="keyword">from</span> emp;</span><br><span class="line"><span class="comment">/*找出最低工资？*/</span></span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">min</span>(sal) <span class="keyword">from</span> emp;</span><br><span class="line"><span class="comment">/*找出平均工资？*/</span></span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">avg</span>(sal) <span class="keyword">from</span> emp;</span><br><span class="line"><span class="comment">/*找出总人数？*/</span></span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">count</span>(<span class="operator">*</span>) <span class="keyword">from</span> emp;</span><br><span class="line">	<span class="keyword">select</span> <span class="built_in">count</span>(ename) <span class="keyword">from</span> emp;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ifnull（）"><a href="#ifnull（）" class="headerlink" title="ifnull（）"></a>ifnull（）</h3><blockquote>
+<p>ifnull（可能为NULL的数据，被当做什么计算）</p>
+<p>属于单行处理函数</p>
+</blockquote>
+<h3 id="count（-）和count（字段）的区别"><a href="#count（-）和count（字段）的区别" class="headerlink" title="count（*）和count（字段）的区别"></a>count（*）和count（字段）的区别</h3><blockquote>
+<p>count(*):统计总记录条数，和字段无关</p>
+<p>count（字段）：表示统计字段中不为NULL的数据总数</p>
+</blockquote>
+<h2 id="group-by和having"><a href="#group-by和having" class="headerlink" title="group by和having"></a>group by和having</h2><blockquote>
+<p>group by：按照某个字段或者某些字段进行分组</p>
+<p>having：having是对分组之后的数据进行再次过滤</p>
+<p><strong>注意：</strong></p>
+<p>​    分组函数一般都会和group by联合使用</p>
+<p>​    并且任何一个分组函数都是在group by语句执行结束之后才会执行。</p>
+<p>​    当一条sql语句没有group by的话，整张表的数据会自成一组。</p>
+<p>​    当一条语句中有group by的话，select后面只能跟分组函数和参与分组的字段。</p>
+</blockquote>
+<h2 id="DQL语句的执行顺序"><a href="#DQL语句的执行顺序" class="headerlink" title="DQL语句的执行顺序"></a>DQL语句的执行顺序</h2><blockquote>
+<p>select               5</p>
+<p>​    ..</p>
+<p>from                 1</p>
+<p>​    ..</p>
+<p>where                2</p>
+<p>​    ..</p>
+<p>group by             3</p>
+<p>​    ..</p>
+<p>having               4</p>
+<p>​    ..</p>
+<p>order by             6</p>
+<p>​    ..</p>
+</blockquote>
+<h2 id="去除重复（distinct）"><a href="#去除重复（distinct）" class="headerlink" title="去除重复（distinct）"></a>去除重复（distinct）</h2><blockquote>
+<p>distinct前面不能有字段</p>
+<p>distinct后面有多个字段，把后面的字段联合起来一起去重</p>
+</blockquote>
+<h2 id="连接查询的分类"><a href="#连接查询的分类" class="headerlink" title="连接查询的分类"></a>连接查询的分类</h2><blockquote>
+<p>内连接 inner join</p>
+<p>​    等值连接</p>
+<p>​    非等值连接</p>
+<p>​    自连接</p>
+<p>外连接</p>
+<p>​    左外连接（左连接）left outer join</p>
+<p>​    右外连接（右连接）right outer join</p>
+<p>全连接</p>
+</blockquote>
+<h2 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h2><blockquote>
+<p>select语句当中嵌套select语句，被嵌套的select语句是子查询</p>
+<p>子查询可以出现在哪里？</p>
+<p>​    select</p>
+<p>​    …(select)</p>
+<p>​    from</p>
+<p>​    …(select)</p>
+<p>​    where</p>
+<p>​    …(select)</p>
+</blockquote>
+<h2 id="union"><a href="#union" class="headerlink" title="union"></a>union</h2><blockquote>
+<p>可以将查询的结果集相加</p>
+<p>列的数量必须是一样的</p>
+</blockquote>
+<h2 id="limit"><a href="#limit" class="headerlink" title="limit"></a>limit</h2><blockquote>
+<p>limit是mysql特有的，其他数据库中没有，不通用。（Oracle中有一个相同的机制，叫做rownum）</p>
+<p>limt取结果集中的部分数据，这是他的作用</p>
+<p>语法：</p>
+<p>​    limit startIndex，length</p>
+<p>​        startIndex：表示起始位置，从0开始，0表示第一条数据。</p>
+<p>​        length：表示取几个</p>
+<p>每页显示pageSize条记录：</p>
+<p>第pageNum页：（pageNum-1）*pageSize ，pageSize</p>
+</blockquote>
+<h2 id="表的复制"><a href="#表的复制" class="headerlink" title="表的复制"></a>表的复制</h2><blockquote>
+<p>表的复制</p>
+<p>​    将查询结果当做表创建出来</p>
+<p>​    create table emp1 as select * from emp;</p>
+<p>批量插入</p>
+<p>​    insert into dept1 select * from dept</p>
+</blockquote>
+<h2 id="删除大表"><a href="#删除大表" class="headerlink" title="删除大表"></a>删除大表</h2><blockquote>
+<p>truncate table 表名;//表被截断，不可回滚，永久丢失</p>
+</blockquote>
+<h2 id="常见的约束"><a href="#常见的约束" class="headerlink" title="常见的约束"></a>常见的约束</h2><blockquote>
+<p>1）not null ：非空约束，保证字段的值不能为空<br>     s_name VARCHAR(10) NOT NULL, #非空</p>
+<p>2）default：默认约束，保证字段总会有值，即使没有插入值，都会有默认值！<br>     age INT DEFAULT 18, #默认约束</p>
+<p>3）unique：唯一，保证唯一性但是可以为空，比如座位号<br>     s_seat INT UNIQUE,#唯一约束</p>
+<p>4）check：检查性约束【MySQL不支持，语法不报错，但无效】<br>     s_sex CHAR(1) CHECK(s_sex=’男’ OR s_sex=’女’),#检查约束(Mysql无效)</p>
+<p>5）primary key ：主建约束，同时保证唯一性和非空<br>     id INT PRIMARY KEY,#主建约束（唯一性，非空）</p>
+<p>6）foreign key：外键约束，用于限制两个表的关系，保证从表该字段的值来自于主表相关联的字段的值！<br>     teacher_id INT REFERENCES teacher(id)   #这是外键,写在列级,Mysql无效</p>
+</blockquote>
+<h2 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h2><blockquote>
+<p>t_student中的classno字段引用t_class表中的cno字段，此时t_student表叫做子表。t_class表叫做父表。</p>
+<p>顺序要求：</p>
+<p>​    删除数据的时候，先删除子表，再删除父表</p>
+<p>​    添加数据的时候，先添加父表，再添加子表</p>
+<p>​    创建表的时候，先创建父表，再创建子表</p>
+<p>​    删除表的时候，先删除子表，再删除父表</p>
+<p><strong>注意：</strong></p>
+<p>​    外键值可以为NULL</p>
+<p>​    被引用的字段不一定是主键，但至少具有unique约束</p>
+</blockquote>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><blockquote>
+<p>主键和具有unique约束的字段自动会添加索引。</p>
+<p>根据主键查询效率较高，尽量根据主键检索。</p>
+<p>查看sql语句的执行计划：</p>
+<p>​    explain select ename,sal from emp where sal = 5000;</p>
+<p>给xx字段添加索引</p>
+<p>​    create index 索引名字 on 表名(xx);</p>
+<p>删除索引：</p>
+<p>​    drop index 索引名 on 表名;</p>
+<p>索引什么时候失效？</p>
+<p>​    模糊查询的时候，第一个通配符使用的是%，这个时候索引是失效的。</p>
+</blockquote>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><blockquote>
+<p>创建视图</p>
+<p>​    create view myview as select empno，ename from emp；</p>
+<p>删除视图</p>
+<p>​    drop view myview；</p>
+<p>注意：</p>
+<p>​    只要DQL语句才能以视图对象的方式创建出来。</p>
+<p>​    对视图进行增删改查，会影响到原表数据。</p>
+<p>作用：</p>
+<p>​    视图可以隐藏表的实现细。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div></div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat.png" alt="Jiang Fan 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/zfb.png" alt="Jiang Fan 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/MyBatis/" rel="tag"><i class="fa fa-tag"></i> MyBatis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/12/Servlet/" rel="prev" title="Servlet">
+                  <i class="fa fa-chevron-left"></i> Servlet
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/16/XML/" rel="next" title="XML">
+                  XML <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiang Fan</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+  <script class="next-config" data-name="leancloud_visitors" type="application/json">{&quot;enable&quot;:true,&quot;app_id&quot;:&quot;gMVzIRGEv3BRJOTffcvYCGdd-gzGzoHsz&quot;,&quot;app_key&quot;:&quot;fqSSm447ee6AhUtlBGDWA6hA&quot;,&quot;server_url&quot;:null,&quot;security&quot;:false}</script>
+  <script src="/js/third-party/statistics/lean-analytics.js"></script>
+
+
+<script class="next-config" data-name="utterances" type="application/json">{&quot;enable&quot;:true,&quot;repo&quot;:&quot;fanaidi&#x2F;utterances&quot;,&quot;issue_term&quot;:&quot;pathname&quot;,&quot;theme&quot;:&quot;github-light&quot;}</script>
+<script src="/js/third-party/comments/utterances.js"></script>
+
+</body>
+</html>
