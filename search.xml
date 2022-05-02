@@ -1,6 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CSS父级边框塌陷问题</title>
+    <url>/2021/09/01/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<span id="more"></span>
+
+<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E9%97%AE%E9%A2%98.png"></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">			<span class="selector-id">#div</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">border</span>: <span class="number">5px</span> solid <span class="number">#000000</span>;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">			<span class="selector-id">#div1</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">width</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">background-color</span>: <span class="number">#009F95</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">float</span>: left;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">			<span class="selector-id">#div2</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">width</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">height</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">background-color</span>: <span class="number">#2E2D3C</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">float</span>: left;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">			<span class="selector-id">#div3</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">width</span>: <span class="number">150px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">height</span>: <span class="number">150px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">background-color</span>: <span class="number">#AC2925</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">float</span>: right;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">		</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
+<li><p><strong>增加父元素高度</strong></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#div</span>&#123;</span><br><span class="line">				<span class="attribute">border</span>: <span class="number">5px</span> solid <span class="number">#000000</span>;</span><br><span class="line">				<span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B31.png"></p>
+<p>**优点:**简单</p>
+<p>**缺点:**元素假设有了固定高度,就会被限制</p>
+</li>
+<li><p><strong>增加一个空的div标签,清除浮动</strong></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;clear&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">.clear&#123;</span><br><span class="line">				clear: both;</span><br><span class="line">				margin: 0;</span><br><span class="line">				padding: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B32.png"></p>
+<p>**优点:**简单</p>
+<p>**缺点:**代码中尽量避免空div</p>
+</li>
+<li><p><strong>在父级元素中增加一个 overflow:hidden</strong></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#div</span>&#123;</span><br><span class="line">				<span class="attribute">border</span>: <span class="number">5px</span> solid <span class="number">#000000</span>;</span><br><span class="line">				<span class="comment">/* height: 300px; */</span></span><br><span class="line">				<span class="attribute">overflow</span>: hidden;</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B32.png"></p>
+<p>**优点:**简单</p>
+<p>**缺点:**下拉的一些场景避免使用</p>
+</li>
+<li><p><strong>父类添加一个伪类 :after</strong></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#div</span><span class="selector-pseudo">::after</span>&#123;</span><br><span class="line">				<span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">				<span class="attribute">display</span>: block;</span><br><span class="line">				<span class="attribute">clear</span>: both;</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B32.png"></p>
+<p>**优点:**没有副作用</p>
+<p>**缺点:**写法复杂</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>前端</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CSS选择器</title>
     <url>/2021/08/31/CSS%E9%80%89%E6%8B%A9%E5%99%A8/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -52,53 +99,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CSS父级边框塌陷问题</title>
-    <url>/2021/09/01/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/</url>
-    <content><![CDATA[<p>[TOC]</p>
-<span id="more"></span>
-
-<h1 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h1><p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E9%97%AE%E9%A2%98.png"></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">			<span class="selector-id">#div</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">border</span>: <span class="number">5px</span> solid <span class="number">#000000</span>;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">			<span class="selector-id">#div1</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">width</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">background-color</span>: <span class="number">#009F95</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">float</span>: left;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">			<span class="selector-id">#div2</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">width</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">height</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">background-color</span>: <span class="number">#2E2D3C</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">float</span>: left;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">			<span class="selector-id">#div3</span>&#123;</span></span><br><span class="line"><span class="css">				<span class="attribute">width</span>: <span class="number">150px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">height</span>: <span class="number">150px</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">background-color</span>: <span class="number">#AC2925</span>;</span></span><br><span class="line"><span class="css">				<span class="attribute">float</span>: right;</span></span><br><span class="line"><span class="css">			&#125;</span></span><br><span class="line"><span class="css">		</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h1><ol>
-<li><p><strong>增加父元素高度</strong></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#div</span>&#123;</span><br><span class="line">				<span class="attribute">border</span>: <span class="number">5px</span> solid <span class="number">#000000</span>;</span><br><span class="line">				<span class="attribute">height</span>: <span class="number">300px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B31.png"></p>
-<p>**优点:**简单</p>
-<p>**缺点:**元素假设有了固定高度,就会被限制</p>
-</li>
-<li><p><strong>增加一个空的div标签,清除浮动</strong></p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div2&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;div3&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;clear&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">.clear&#123;</span><br><span class="line">				clear: both;</span><br><span class="line">				margin: 0;</span><br><span class="line">				padding: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B32.png"></p>
-<p>**优点:**简单</p>
-<p>**缺点:**代码中尽量避免空div</p>
-</li>
-<li><p><strong>在父级元素中增加一个 overflow:hidden</strong></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#div</span>&#123;</span><br><span class="line">				<span class="attribute">border</span>: <span class="number">5px</span> solid <span class="number">#000000</span>;</span><br><span class="line">				<span class="comment">/* height: 300px; */</span></span><br><span class="line">				<span class="attribute">overflow</span>: hidden;</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B32.png"></p>
-<p>**优点:**简单</p>
-<p>**缺点:**下拉的一些场景避免使用</p>
-</li>
-<li><p><strong>父类添加一个伪类 :after</strong></p>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-id">#div</span><span class="selector-pseudo">::after</span>&#123;</span><br><span class="line">				<span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">				<span class="attribute">display</span>: block;</span><br><span class="line">				<span class="attribute">clear</span>: both;</span><br><span class="line">			&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://fanaidi.gitee.io/blogimgs/CSS%E7%88%B6%E7%BA%A7%E8%BE%B9%E6%A1%86%E5%A1%8C%E9%99%B7%E9%97%AE%E9%A2%98/%E8%A7%A3%E5%86%B32.png"></p>
-<p>**优点:**没有副作用</p>
-<p>**缺点:**写法复杂</p>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>前端</category>
-      </categories>
-      <tags>
-        <tag>css</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>JDBC</title>
     <url>/2021/04/12/JDBC/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -130,7 +130,7 @@
 
 ]]></content>
       <categories>
-        <category>java</category>
+        <category>Java</category>
       </categories>
       <tags>
         <tag>jdbc</tag>
@@ -331,41 +331,64 @@
       </tags>
   </entry>
   <entry>
-    <title>Kafka</title>
-    <url>/2021/10/30/Kafka/</url>
-    <content><![CDATA[<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><blockquote>
-<p>Kafka是一个分布式的基于发布/订阅模式的消息队列（MessageQueue），主要应用于大数据实时处理领域。</p>
+    <title>JUC高并发编程</title>
+    <url>/2021/11/20/JUC%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</url>
+    <content><![CDATA[<p>[Toc]</p>
+<span id="more"></span>
+
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><blockquote>
+<p>JUC全称：java.util.concurrent，是JDK提供的一个处理并发的工具包。</p>
 </blockquote>
-<h2 id="消息队列"><a href="#消息队列" class="headerlink" title="消息队列"></a>消息队列</h2><blockquote>
-<p>是在消息的传输过程中保存消息的容器。</p>
+<h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a>进程</h2><blockquote>
+<p>进程（Process）是计算机中的程序关于某数据集合上的一次运行活动，是系统进行资源分配和调度的基本单位，是操作系统结构的基础。在早期面向进程设计的计算机结构中，进程是程序的基本执行实体；在当代面向线程设计的计算机结构中，进程是线程的容器。程序是指令、数据及其组织形式的描述，进程是程序的实体。</p>
 </blockquote>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p><img src="/%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF.png"></p>
-<h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><ol>
-<li><p>解耦 </p>
-<p>允许你独立的扩展或修改两边的处理过程，只要确保它们遵守同样的接口约束。</p>
-</li>
-<li><p>可恢复性 </p>
-<p>系统的一部分组件失效时，不会影响到整个系统。消息队列降低了进程间的耦合度，所以即使一个处理消息的进程挂掉，加入队列中的消息仍然可以在系统恢复后被处理。</p>
-</li>
-<li><p>缓冲</p>
-<p>有助于控制和优化数据流经过系统的速度，解决生产消息和消费消息的处理速度不一致的情况。</p>
-</li>
-<li><p>灵活性 &amp; 峰值处理能力</p>
-<p>在访问量剧增的情况下，应用仍然需要继续发挥作用，但是这样的突发流量并不常见。 如果为以能处理这类峰值访问为标准来投入资源随时待命无疑是巨大的浪费。使用消息队列 能够使关键组件顶住突发的访问压力，而不会因为突发的超负荷的请求而完全崩溃。</p>
-</li>
-<li><p>异步通信</p>
-<p>很多时候，用户不想也不需要立即处理消息。消息队列提供了异步处理机制，允许用户 把一个消息放入队列，但并不立即处理它。想向队列中放入多少消息就放多少，然后在需要 的时候再去处理它们。</p>
-</li>
+<h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><blockquote>
+<p><strong>线程</strong>（thread）是操作系统能够进行运算调度的最小单位。它被包含在进程之中，是进程中的实际运作单位。一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。</p>
+</blockquote>
+<h2 id="线程的状态"><a href="#线程的状态" class="headerlink" title="线程的状态"></a>线程的状态</h2><h3 id="线程状态枚举类"><a href="#线程状态枚举类" class="headerlink" title="线程状态枚举类"></a>线程状态枚举类</h3><p>Thread.State </p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">enum</span> <span class="title">State</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Thread state for a thread which has not yet started.</span></span><br><span class="line"><span class="comment">     * 新建</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    NEW,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Thread state for a runnable thread.  A thread in the runnable</span></span><br><span class="line"><span class="comment">     * state is executing in the Java virtual machine but it may</span></span><br><span class="line"><span class="comment">     * be waiting for other resources from the operating system</span></span><br><span class="line"><span class="comment">     * such as processor.</span></span><br><span class="line"><span class="comment">     * 准备就绪</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    RUNNABLE,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Thread state for a thread blocked waiting for a monitor lock.</span></span><br><span class="line"><span class="comment">     * A thread in the blocked state is waiting for a monitor lock</span></span><br><span class="line"><span class="comment">     * to enter a synchronized block/method or</span></span><br><span class="line"><span class="comment">     * reenter a synchronized block/method after calling</span></span><br><span class="line"><span class="comment">     * &#123;<span class="doctag">@link</span> Object#wait() Object.wait&#125;.</span></span><br><span class="line"><span class="comment">     * 阻塞</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    BLOCKED,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Thread state for a waiting thread.</span></span><br><span class="line"><span class="comment">     * A thread is in the waiting state due to calling one of the</span></span><br><span class="line"><span class="comment">     * following methods:</span></span><br><span class="line"><span class="comment">     * &lt;ul&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> Object#wait() Object.wait&#125; with no timeout&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> #join() Thread.join&#125; with no timeout&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> LockSupport#park() LockSupport.park&#125;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     * &lt;/ul&gt;</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * &lt;p&gt;A thread in the waiting state is waiting for another thread to</span></span><br><span class="line"><span class="comment">     * perform a particular action.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * For example, a thread that has called &lt;tt&gt;Object.wait()&lt;/tt&gt;</span></span><br><span class="line"><span class="comment">     * on an object is waiting for another thread to call</span></span><br><span class="line"><span class="comment">     * &lt;tt&gt;Object.notify()&lt;/tt&gt; or &lt;tt&gt;Object.notifyAll()&lt;/tt&gt; on</span></span><br><span class="line"><span class="comment">     * that object. A thread that has called &lt;tt&gt;Thread.join()&lt;/tt&gt;</span></span><br><span class="line"><span class="comment">     * is waiting for a specified thread to terminate.</span></span><br><span class="line"><span class="comment">     * 不见不散</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    WAITING,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Thread state for a waiting thread with a specified waiting time.</span></span><br><span class="line"><span class="comment">     * A thread is in the timed waiting state due to calling one of</span></span><br><span class="line"><span class="comment">     * the following methods with a specified positive waiting time:</span></span><br><span class="line"><span class="comment">     * &lt;ul&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> #sleep Thread.sleep&#125;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> Object#wait(long) Object.wait&#125; with timeout&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> #join(long) Thread.join&#125; with timeout&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> LockSupport#parkNanos LockSupport.parkNanos&#125;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     *   &lt;li&gt;&#123;<span class="doctag">@link</span> LockSupport#parkUntil LockSupport.parkUntil&#125;&lt;/li&gt;</span></span><br><span class="line"><span class="comment">     * &lt;/ul&gt;</span></span><br><span class="line"><span class="comment">     * 过时不候</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    TIMED_WAITING,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Thread state for a terminated thread.</span></span><br><span class="line"><span class="comment">     * The thread has completed execution.</span></span><br><span class="line"><span class="comment">     * 终结</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    TERMINATED;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="wait和sleep的区别"><a href="#wait和sleep的区别" class="headerlink" title="wait和sleep的区别"></a>wait和sleep的区别</h3><ol>
+<li>sleep是Thread的静态方法,wait是Object的方法,任何对象实例都可以调用</li>
+<li>sleep不会释放锁,它也不需要占用锁.wait会释放锁,但调用它的前提是当前线程占有锁(即代码要在synchronized中).</li>
+<li>他们都可以被interrupted方法中断.</li>
 </ol>
-<h2 id="消息队列的两种模式"><a href="#消息队列的两种模式" class="headerlink" title="消息队列的两种模式"></a>消息队列的两种模式</h2><ol>
-<li><p><strong>点对点模式</strong>(<strong>一对一</strong>，消费者主动拉取数据，消息收到后消息清除)</p>
-<p>消息生产者生产消息发送到Queue中，然后消息消费者从Queue中取出并且消费消息。 消息被消费以后，Queue中不再有存储，所以消息消费者不可能消费到已经被消费的消息。 Queue支持存在多个消费者，但是对一个消息而言，只会有一个消费者可以消费。</p>
-</li>
-<li><p><strong>发布/订阅模式</strong>（<strong>一对多</strong>，消费者消费数据之后不会清除消息）</p>
-<p>消息生产者（发布）将消息发布到 topic 中，同时有多个消息消费者（订阅）消费该消 息。和点对点方式不同，发布到 topic 的消息会被所有订阅者消费。</p>
-</li>
+<h2 id="并发和并行"><a href="#并发和并行" class="headerlink" title="并发和并行"></a>并发和并行</h2><h3 id="串行模式"><a href="#串行模式" class="headerlink" title="串行模式"></a>串行模式</h3><blockquote>
+<p>串行是一次只能取得一个任务,并执行这个任务</p>
+</blockquote>
+<h3 id="并行模式"><a href="#并行模式" class="headerlink" title="并行模式"></a>并行模式</h3><blockquote>
+<p>多项工作一起执行,之后再汇总</p>
+</blockquote>
+<h3 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h3><blockquote>
+<p>同一时刻多个线程在访问同一个资源,多个线程对一个点</p>
+</blockquote>
+<h2 id="管程"><a href="#管程" class="headerlink" title="管程"></a>管程</h2><blockquote>
+<p>是一种同步机制,保证同一个时间,只有一个线程访问被保护数据或者代码</p>
+</blockquote>
+<h2 id="用户线程和守护线程"><a href="#用户线程和守护线程" class="headerlink" title="用户线程和守护线程"></a>用户线程和守护线程</h2><h3 id="用户线程"><a href="#用户线程" class="headerlink" title="用户线程"></a>用户线程</h3><blockquote>
+<p>自定义线程</p>
+<p>主线程结束了,用户线程还在运行,jvm存活</p>
+</blockquote>
+<h3 id="守护线程"><a href="#守护线程" class="headerlink" title="守护线程"></a>守护线程</h3><blockquote>
+<p>比如垃圾回收</p>
+<p>没有用户线程,都是守护线程,jvm结束</p>
+</blockquote>
+<h1 id="Lock接口"><a href="#Lock接口" class="headerlink" title="Lock接口"></a>Lock接口</h1><h2 id="Synchronized"><a href="#Synchronized" class="headerlink" title="Synchronized"></a>Synchronized</h2><h3 id="多线程编程步骤"><a href="#多线程编程步骤" class="headerlink" title="多线程编程步骤"></a>多线程编程步骤</h3><ol>
+<li>创建资源类,在资源类创建属性和操作方法</li>
+<li>创建多个线程,调用资源类的操作方法</li>
 </ol>
+<h3 id="卖票案例"><a href="#卖票案例" class="headerlink" title="卖票案例"></a>卖票案例</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 1. 创建资源类,在资源类创建属性和操作方法</span></span><br><span class="line"><span class="comment"> * 2. 创建多个线程,调用资源类的操作方法</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SaleTicket</span> </span>&#123;</span><br><span class="line">    <span class="comment">//2.创建多个线程</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//创建Ticket对象</span></span><br><span class="line">        Ticket ticket = <span class="keyword">new</span> Ticket();</span><br><span class="line">        <span class="comment">//创建三个线程</span></span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">40</span>; i++) &#123;</span><br><span class="line">                ticket.sale();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;AA&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">40</span>; i++) &#123;</span><br><span class="line">                ticket.sale();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;BB&quot;</span>).start();</span><br><span class="line">        <span class="keyword">new</span> Thread(()-&gt;&#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">40</span>; i++) &#123;</span><br><span class="line">                ticket.sale();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,<span class="string">&quot;CC&quot;</span>).start();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//1.创建资源类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Ticket</span></span>&#123;</span><br><span class="line">    <span class="comment">//票数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> number = <span class="number">30</span>;</span><br><span class="line">    <span class="comment">//操作方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">sale</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="comment">//判断是否有票</span></span><br><span class="line">        <span class="keyword">if</span> (number &gt; <span class="number">0</span>)&#123;</span><br><span class="line">            System.out.println(Thread.currentThread().getName()+<span class="string">&quot; : 卖出: &quot;</span>+number--+<span class="string">&quot;剩下: &quot;</span>+number);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Lock接口-1"><a href="#Lock接口-1" class="headerlink" title="Lock接口"></a>Lock接口</h2><blockquote>
+<p><code>Lock</code>实现提供比使用<code>synchronized</code>方法和语句可以获得的更广泛的锁定操作。</p>
+</blockquote>
 ]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>JUC</tag>
+      </tags>
   </entry>
   <entry>
     <title>Linux</title>
@@ -480,9 +503,9 @@
 <p>2.Maven工程的坐标与仓库中路径的对应关系</p>
 <p>​    坐标:</p>
 <pre><code>  &lt;groupId&gt;org.springframework&lt;/groupId&gt;
-       
+           
   &lt;artifactId&gt;spring-core&lt;/artifactId&gt;  
-       
+           
   &lt;version&gt;5.3.1&lt;/version&gt;
 </code></pre>
 <p>​    路径: org\springframework\spring-core\5.3.1</p>
@@ -578,7 +601,7 @@
 
 ]]></content>
       <categories>
-        <category>后端</category>
+        <category>构建工具</category>
       </categories>
       <tags>
         <tag>Maven</tag>
@@ -635,7 +658,7 @@
 
 ]]></content>
       <categories>
-        <category>SSM</category>
+        <category>持久层框架</category>
       </categories>
       <tags>
         <tag>MyBatis</tag>
@@ -1345,50 +1368,6 @@
       </tags>
   </entry>
   <entry>
-    <title>从零搭建博客</title>
-    <url>/2020/01/16/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
-    <content><![CDATA[<p>[TOC]</p>
-<span id="more"></span>
-
-<h1 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h1><h2 id="1-1安装github"><a href="#1-1安装github" class="headerlink" title="1.1安装github"></a>1.1安装github</h2><p>官网下载<a target = "_blank" href="https://git-scm.com/">DownLoad Git</a><br>国内镜像<a target = "_blank" href="https://npm.taobao.org/mirrors/git-for-windows/">DownLoad Git</a><br>安装就一直点下一步就好了</p>
-<h2 id="1-2安装node-js"><a href="#1-2安装node-js" class="headerlink" title="1.2安装node.js"></a>1.2安装node.js</h2><p>Hexo是基于nodejs编写的，所以需要安装一下nodeJs和里面的npm工具<br>官网下载<a target = "_blank" target = "_blank" href="https://nodejs.org/en/download/">nodeJS</a><br>windows：nodejs选择LTS版本就行了，然后安装就一直点下一步就好了<br>windows在git安装完后，就可以直接使用git bash来敲命令行</p>
-<h2 id="1-3安装hexo"><a href="#1-3安装hexo" class="headerlink" title="1.3安装hexo"></a>1.3安装hexo</h2><p>前面git和nodejs安装好后，就可以安装hexo了，你可以先创建一个文件夹blog，然后cd到这个文件夹下（或者在这个文件夹下直接右键git bash打开）<br>输入命令<br> <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org #用淘宝的npm下载</span><br><span class="line">cnpm install hexo-cli -g</span><br></pre></td></tr></table></figure><br> 用hexo -v来检查是否安装成功<br> 接下来初始化一下hexo</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-<p>新建完成之后，指定文件夹目录下面有</p>
-<ul>
-<li>node_modules: 依赖包</li>
-<li>public：存放生成的页面</li>
-<li>scaffolds：生成文章的一些模板</li>
-<li>source：用来存放你的文章</li>
-<li>themes：主题</li>
-<li>_config.yml: 博客的配置文件**<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-打开hexo的服务，在浏览器输入localhost:4000就可以看到你生成的博客了。</li>
-</ul>
-<h1 id="2-GitHub创建个人仓库"><a href="#2-GitHub创建个人仓库" class="headerlink" title="2.GitHub创建个人仓库"></a>2.GitHub创建个人仓库</h1><p>首先，你先要有一个GitHub账户，去注册一个吧。<br>注册完登录后，在GitHub.com中看到一个New repository，新建仓库<br>创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是xxxx.github.io，其中xxx就是你注册GitHub的用户名</p>
-<h2 id="点击create-repository。"><a href="#点击create-repository。" class="headerlink" title="点击create repository。"></a>点击create repository。</h2><h1 id="3-生成SSH添加到GitHub"><a href="#3-生成SSH添加到GitHub" class="headerlink" title="3.生成SSH添加到GitHub"></a>3.生成SSH添加到GitHub</h1><p>回到你的git bash中，</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
-<p>然后创建SSH,一路回车</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
-<p>这个时候它会告诉你已经生成了.ssh的文件夹。在你的电脑中找到这个文件夹。<br>ssh，简单来讲，就是一个秘钥，其中，id_rsa是你这台电脑的私人秘钥，不能给别人看的，id_rsa.pub是公共秘钥，可以随便给别人看。把这个公钥放在GitHub上，这样当你链接GitHub自己的账户时，它就会根据公钥匹配你的私钥，当能够相互匹配时，才能够顺利的通过git上传你的文件到GitHub上。<br>而后在GitHub的setting中，找到SSH keys的设置选项，点击New SSH key<br>把你的id_rsa.pub里面的信息复制进去。<br>在gitbash中，查看是否成功</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
-<h1 id="4-将hexo部署到GitHub"><a href="#4-将hexo部署到GitHub" class="headerlink" title="4.将hexo部署到GitHub"></a>4.将hexo部署到GitHub</h1><p>这一步，我们连起来，也就是将hexo生成的文章部署到GitHub上，打开站点配置_config.yml，翻到最后，修改为YourgithubName就是你的GitHub账户</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/YourgithubName/YourgithubName.github.io.git   #github</span><br><span class="line">        https://e.coding.net/YourCodingName/ProjectName/ProjectName.git #coding</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
-<p>这个时候需要先安装deploy-git ，也就是部署的命令,这样你才能用命令部署到GitHub。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
-<p>然后</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
-<p>其中 hexo clean清除了你之前生成的东西，也可以不加。<br>hexo generate 顾名思义，生成静态文章，可以用 hexo g缩写<br>hexo deploy 部署文章，可以用hexo d缩写<br>注意deploy时可能要你输入username和password。</p>
-<p>得到下图就证明你成功了！</p>
-<p><img src="https://fanaidi.gitee.io/blogimgs/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2-success.jpg"></p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>markdown常用语法</title>
     <url>/2020/01/17/markdown%E5%B8%B8%E7%94%A8%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -1455,50 +1434,54 @@
 
 ]]></content>
       <categories>
-        <category>其他</category>
+        <category>Markdown</category>
       </categories>
       <tags>
         <tag>markdown</tag>
       </tags>
   </entry>
   <entry>
-    <title>问题和解决方法</title>
-    <url>/2021/04/25/%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+    <title>从零搭建博客</title>
+    <url>/2020/01/16/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/</url>
     <content><![CDATA[<p>[TOC]</p>
 <span id="more"></span>
 
-<h3 id="1-SpringMVC跨服务器上传图片"><a href="#1-SpringMVC跨服务器上传图片" class="headerlink" title="1.SpringMVC跨服务器上传图片"></a>1.SpringMVC跨服务器上传图片</h3><h4 id="1-问题-浏览器报错409"><a href="#1-问题-浏览器报错409" class="headerlink" title="1.问题:浏览器报错409"></a>1.问题:浏览器报错409</h4><p><strong>描述</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">com.sun.jersey.api.client.UniformInterfaceException: PUT http://localhost:9090/springmvc_fileuploadserver_war_exploded/uploads/8f5e83243c6a4a3bb5f89bc53546a7cc_tx3.jpg returned a response status of 409 Conflict</span><br></pre></td></tr></table></figure>
-
-<p><strong>解决</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在target目录下的服务器目录下创建uploads目录</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-问题-浏览器报错400"><a href="#2-问题-浏览器报错400" class="headerlink" title="2.问题:浏览器报错400"></a>2.问题:浏览器报错400</h4><p><strong>描述</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">com.sun.jersey.api.client.UniformInterfaceException: PUT http://localhost:9090/springmvc_fileuploadserver_war_exploded/uploads/b9d93562dc164ea6a07db990c5f91914_堆.png returned a response status of 400 Bad Request</span><br></pre></td></tr></table></figure>
-
-<p><strong>解决</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">原因:图片名称带有中文</span><br><span class="line"></span><br><span class="line">filename = URLEncoder.encode(filename,&quot;utf-8&quot;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-问题-浏览器报错404"><a href="#3-问题-浏览器报错404" class="headerlink" title="3.问题:浏览器报错404"></a>3.问题:浏览器报错404</h4><p><strong>描述</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">com.sun.jersey.api.client.UniformInterfaceException：404</span><br></pre></td></tr></table></figure>
-
-<p><strong>解决</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.找到tomcat的安装目录</span><br><span class="line">2.找到conf文件夹下的web.xml</span><br><span class="line">3.在如图所示添加以下代码</span><br><span class="line">&lt;init-param&gt;</span><br><span class="line">　　	&lt;param-name&gt;readonly&lt;/param-name&gt;</span><br><span class="line">　　	&lt;param-value&gt;false&lt;/param-value&gt;</span><br><span class="line">&lt;/init-param&gt;</span><br></pre></td></tr></table></figure>
-
-<p><strong>如图所示</strong></p>
-<p><img src="https://fanaidi.gitee.io/blogimgs/%E9%97%AE%E9%A2%98%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/tomcat_conf_web%E7%9A%84%E4%BF%AE%E6%94%B9.png"></p>
-<h3 id="2-VScode"><a href="#2-VScode" class="headerlink" title="2.VScode"></a>2.VScode</h3><h4 id="1-使用nodemon插件报错"><a href="#1-使用nodemon插件报错" class="headerlink" title="1.使用nodemon插件报错"></a>1.使用nodemon插件报错</h4><p><strong>问题</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nodemon : 无法加载文件 C:\Users\*****\AppData\Roaming\npm\nodemon.ps1，因为在此系统上禁止运行脚本。有关详细信息，请参阅 https:/go.microsoft.com/fwlink/?LinkID=135170 中的 about_Execution_Policies。</span><br></pre></td></tr></table></figure>
-
-<p><strong>解决</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">管理员身份打开windows powerShell</span><br><span class="line">输入</span><br><span class="line">Set-ExecutionPolicy RemoteSigned</span><br><span class="line">再输入Y</span><br></pre></td></tr></table></figure>
-
+<h1 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h1><h2 id="1-1安装github"><a href="#1-1安装github" class="headerlink" title="1.1安装github"></a>1.1安装github</h2><p>官网下载<a target = "_blank" href="https://git-scm.com/">DownLoad Git</a><br>国内镜像<a target = "_blank" href="https://npm.taobao.org/mirrors/git-for-windows/">DownLoad Git</a><br>安装就一直点下一步就好了</p>
+<h2 id="1-2安装node-js"><a href="#1-2安装node-js" class="headerlink" title="1.2安装node.js"></a>1.2安装node.js</h2><p>Hexo是基于nodejs编写的，所以需要安装一下nodeJs和里面的npm工具<br>官网下载<a target = "_blank" target = "_blank" href="https://nodejs.org/en/download/">nodeJS</a><br>windows：nodejs选择LTS版本就行了，然后安装就一直点下一步就好了<br>windows在git安装完后，就可以直接使用git bash来敲命令行</p>
+<h2 id="1-3安装hexo"><a href="#1-3安装hexo" class="headerlink" title="1.3安装hexo"></a>1.3安装hexo</h2><p>前面git和nodejs安装好后，就可以安装hexo了，你可以先创建一个文件夹blog，然后cd到这个文件夹下（或者在这个文件夹下直接右键git bash打开）<br>输入命令<br> <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">npm install -g cnpm --registry=https://registry.npm.taobao.org #用淘宝的npm下载</span><br><span class="line">cnpm install hexo-cli -g</span><br></pre></td></tr></table></figure><br> 用hexo -v来检查是否安装成功<br> 接下来初始化一下hexo</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<p>新建完成之后，指定文件夹目录下面有</p>
+<ul>
+<li>node_modules: 依赖包</li>
+<li>public：存放生成的页面</li>
+<li>scaffolds：生成文章的一些模板</li>
+<li>source：用来存放你的文章</li>
+<li>themes：主题</li>
+<li>_config.yml: 博客的配置文件**<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
+打开hexo的服务，在浏览器输入localhost:4000就可以看到你生成的博客了。</li>
+</ul>
+<h1 id="2-GitHub创建个人仓库"><a href="#2-GitHub创建个人仓库" class="headerlink" title="2.GitHub创建个人仓库"></a>2.GitHub创建个人仓库</h1><p>首先，你先要有一个GitHub账户，去注册一个吧。<br>注册完登录后，在GitHub.com中看到一个New repository，新建仓库<br>创建一个和你用户名相同的仓库，后面加.github.io，只有这样，将来要部署到GitHub page的时候，才会被识别，也就是xxxx.github.io，其中xxx就是你注册GitHub的用户名</p>
+<h2 id="点击create-repository。"><a href="#点击create-repository。" class="headerlink" title="点击create repository。"></a>点击create repository。</h2><h1 id="3-生成SSH添加到GitHub"><a href="#3-生成SSH添加到GitHub" class="headerlink" title="3.生成SSH添加到GitHub"></a>3.生成SSH添加到GitHub</h1><p>回到你的git bash中，</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git config --global user.name &quot;yourname&quot;</span><br><span class="line">git config --global user.email &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+<p>然后创建SSH,一路回车</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &quot;youremail&quot;</span><br></pre></td></tr></table></figure>
+<p>这个时候它会告诉你已经生成了.ssh的文件夹。在你的电脑中找到这个文件夹。<br>ssh，简单来讲，就是一个秘钥，其中，id_rsa是你这台电脑的私人秘钥，不能给别人看的，id_rsa.pub是公共秘钥，可以随便给别人看。把这个公钥放在GitHub上，这样当你链接GitHub自己的账户时，它就会根据公钥匹配你的私钥，当能够相互匹配时，才能够顺利的通过git上传你的文件到GitHub上。<br>而后在GitHub的setting中，找到SSH keys的设置选项，点击New SSH key<br>把你的id_rsa.pub里面的信息复制进去。<br>在gitbash中，查看是否成功</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ssh -T git@github.com</span><br></pre></td></tr></table></figure>
+<h1 id="4-将hexo部署到GitHub"><a href="#4-将hexo部署到GitHub" class="headerlink" title="4.将hexo部署到GitHub"></a>4.将hexo部署到GitHub</h1><p>这一步，我们连起来，也就是将hexo生成的文章部署到GitHub上，打开站点配置_config.yml，翻到最后，修改为YourgithubName就是你的GitHub账户</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https://github.com/YourgithubName/YourgithubName.github.io.git   #github</span><br><span class="line">        https://e.coding.net/YourCodingName/ProjectName/ProjectName.git #coding</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+<p>这个时候需要先安装deploy-git ，也就是部署的命令,这样你才能用命令部署到GitHub。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">cnpm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+<p>然后</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo generate</span><br><span class="line">hexo deploy</span><br></pre></td></tr></table></figure>
+<p>其中 hexo clean清除了你之前生成的东西，也可以不加。<br>hexo generate 顾名思义，生成静态文章，可以用 hexo g缩写<br>hexo deploy 部署文章，可以用hexo d缩写<br>注意deploy时可能要你输入username和password。</p>
+<p>得到下图就证明你成功了！</p>
+<p><img src="https://fanaidi.gitee.io/blogimgs/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2-success.jpg"></p>
 ]]></content>
       <categories>
         <category>其他</category>
       </categories>
       <tags>
-        <tag>solution</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -1604,7 +1587,7 @@
 
 ]]></content>
       <categories>
-        <category>后端</category>
+        <category>JavaWeb</category>
       </categories>
       <tags>
         <tag>servlet</tag>
@@ -2571,6 +2554,12 @@
 </li>
 </ol>
 ]]></content>
+      <categories>
+        <category>消息队列</category>
+      </categories>
+      <tags>
+        <tag>RabbitMQ</tag>
+      </tags>
   </entry>
   <entry>
     <title>Spring</title>
@@ -3025,7 +3014,7 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>SSM</category>
+        <category>Spring</category>
       </categories>
       <tags>
         <tag>Spring</tag>
@@ -3951,7 +3940,7 @@
 </blockquote>
 ]]></content>
       <categories>
-        <category>NOSQL</category>
+        <category>NoSQL</category>
       </categories>
       <tags>
         <tag>Redis</tag>
@@ -4931,7 +4920,7 @@
 
 ]]></content>
       <categories>
-        <category>后端框架</category>
+        <category>Spring</category>
       </categories>
       <tags>
         <tag>SpringBoot</tag>
@@ -5720,7 +5709,7 @@ Vue的实例对象，以后简称vm。
 </ol>
 ]]></content>
       <categories>
-        <category>SSM</category>
+        <category>Spring</category>
       </categories>
       <tags>
         <tag>SpringMVC</tag>
@@ -6748,10 +6737,10 @@ Vue的实例对象，以后简称vm。
 
 ]]></content>
       <categories>
-        <category>java</category>
+        <category>Java</category>
       </categories>
       <tags>
-        <tag>java</tag>
+        <tag>Java</tag>
       </tags>
   </entry>
 </search>
