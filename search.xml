@@ -48,44 +48,6 @@
       </tags>
   </entry>
   <entry>
-    <title>JDBC</title>
-    <url>/2021/04/12/JDBC/</url>
-    <content><![CDATA[<p>[TOC]</p>
-<span id="more"></span>
-
-<h3 id="一-实现步骤"><a href="#一-实现步骤" class="headerlink" title="一.实现步骤"></a>一.实现步骤</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.导入驱动jar包</span><br><span class="line">2.注册驱动</span><br><span class="line">3.获取数据库连接对象</span><br><span class="line">4.定义sql语句</span><br><span class="line">5.获取执行sql的对象Statement</span><br><span class="line">6.执行sql</span><br><span class="line">7.处理结果</span><br><span class="line">8.释放资源</span><br></pre></td></tr></table></figure>
-
-<h3 id="二-详解各个对象"><a href="#二-详解各个对象" class="headerlink" title="二.详解各个对象"></a>二.详解各个对象</h3><h4 id="1-DriverManager"><a href="#1-DriverManager" class="headerlink" title="1.DriverManager"></a>1.DriverManager</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">驱动管理对象</span><br><span class="line">public class DriverManager extends Object 用于管理一组JDBC驱动程序的基本服务。</span><br></pre></td></tr></table></figure>
-
-<h5 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.注册驱动:告诉程序该使用哪一个数据库驱动jar</span><br><span class="line">static void registerDriver(Driver driver) 注册与给定的驱动程序 DriverManager.</span><br><span class="line">写代码使用Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">注意:mysql5之后的驱动jar包可以省略注册驱动的步骤</span><br><span class="line">2.获取数据库连接</span><br><span class="line">static Connection getConnection(String url, String user, String password) 尝试建立与给定数据库URL的连接。  </span><br><span class="line">参数:</span><br><span class="line">url:指定连接路径</span><br><span class="line">	语法:jdbc:mysql://ip地址(域名):端口号/数据库名称</span><br><span class="line">	例子:jdbc:mysql://localhost:3306/db  //(mysql5.0)</span><br><span class="line">	--------------------------mysql8.0写法-----------------------------</span><br><span class="line">		jdbc:mysql://localhost:3306/db</span><br><span class="line">		?useUnicode=true</span><br><span class="line">		&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Hongkong</span><br><span class="line">		&amp;allowPublicKeyRetrieval=true   //(mysql8.0)</span><br><span class="line">user:用户名</span><br><span class="line">password:密码</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-Connection"><a href="#2-Connection" class="headerlink" title="2.Connection"></a>2.Connection</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">数据库连接对象</span><br><span class="line">1.获取执行sql的对象</span><br><span class="line">Statement createStatement() //创建一个 Statement对象，用于将SQL语句发送到数据库。  </span><br><span class="line">PreparedStatement prepareStatement(String sql) //创建一个 PreparedStatement对象，用于将参数化的SQL语句发送到数据库。 </span><br><span class="line">2.管理事务</span><br><span class="line">开启事务:void setAutoCommit(boolean autoCommit) //将此连接的自动提交模式设置为给定状态。true启用自动提交模式; false禁用它   </span><br><span class="line">提交事务:commit()</span><br><span class="line">回滚事务:rollback()</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-Statement"><a href="#3-Statement" class="headerlink" title="3.Statement"></a>3.Statement</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">执行sql的对象</span><br><span class="line">boolean execute(String sql) //执行给定的 SQL 语句，该语句可能返回多个结果。 </span><br><span class="line">int executeUpdate(String sql) //执行给定 SQL 语句，该语句可能为 INSERT、UPDATE 或 DELETE 语句，或者不返回任何内容的 	SQL 语句（如 SQL DDL(create,alter,drop) 语句）。 </span><br><span class="line">	返回值:影响的行数	</span><br><span class="line">ResultSet executeQuery(String sql) //执行给定的 SQL 语句，该语句返回单个 ResultSet 对象。 </span><br></pre></td></tr></table></figure>
-
-<h4 id="4-ResultSet"><a href="#4-ResultSet" class="headerlink" title="4.ResultSet"></a>4.ResultSet</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">结果集对象</span><br><span class="line">boolean next() //将光标从当前位置向前移一行。 </span><br></pre></td></tr></table></figure>
-
-<h4 id="5-PreparedStatement"><a href="#5-PreparedStatement" class="headerlink" title="5.PreparedStatement"></a>5.PreparedStatement</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">执行sql的对象</span><br><span class="line">1.解决sql注入问题:使用PreparedStatement对象来解决</span><br><span class="line">2.预编译的sql:参数使用?作为占位符</span><br></pre></td></tr></table></figure>
-
-<h3 id="三-JDBC管理事务"><a href="#三-JDBC管理事务" class="headerlink" title="三.JDBC管理事务"></a>三.JDBC管理事务</h3><h4 id="1-事务"><a href="#1-事务" class="headerlink" title="1.事务:"></a>1.事务:</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">一个包含多个步骤的业务操作.如果这个业务操作被事务管理,则这个步骤要么同时成功,要么同时失败</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-操作"><a href="#2-操作" class="headerlink" title="2.操作:"></a>2.操作:</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.开启事务.</span><br><span class="line">2.提交事务.</span><br><span class="line">3.回滚事务</span><br></pre></td></tr></table></figure>
-
-<h4 id="3-使用Connection对象来管理事务"><a href="#3-使用Connection对象来管理事务" class="headerlink" title="3.使用Connection对象来管理事务"></a>3.使用Connection对象来管理事务</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">开启事务:void setAutoCommit(boolean autoCommit) //将此连接的自动提交模式设置为给定状态。true启用自动提交模式; false禁用它   </span><br><span class="line">提交事务:commit()</span><br><span class="line">回滚事务:rollback()</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>jdbc</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>CSS选择器</title>
     <url>/2021/08/31/CSS%E9%80%89%E6%8B%A9%E5%99%A8/</url>
     <content><![CDATA[<p>[TOC]</p>
@@ -134,6 +96,44 @@
       </categories>
       <tags>
         <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JDBC</title>
+    <url>/2021/04/12/JDBC/</url>
+    <content><![CDATA[<p>[TOC]</p>
+<span id="more"></span>
+
+<h3 id="一-实现步骤"><a href="#一-实现步骤" class="headerlink" title="一.实现步骤"></a>一.实现步骤</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.导入驱动jar包</span><br><span class="line">2.注册驱动</span><br><span class="line">3.获取数据库连接对象</span><br><span class="line">4.定义sql语句</span><br><span class="line">5.获取执行sql的对象Statement</span><br><span class="line">6.执行sql</span><br><span class="line">7.处理结果</span><br><span class="line">8.释放资源</span><br></pre></td></tr></table></figure>
+
+<h3 id="二-详解各个对象"><a href="#二-详解各个对象" class="headerlink" title="二.详解各个对象"></a>二.详解各个对象</h3><h4 id="1-DriverManager"><a href="#1-DriverManager" class="headerlink" title="1.DriverManager"></a>1.DriverManager</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">驱动管理对象</span><br><span class="line">public class DriverManager extends Object 用于管理一组JDBC驱动程序的基本服务。</span><br></pre></td></tr></table></figure>
+
+<h5 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h5><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.注册驱动:告诉程序该使用哪一个数据库驱动jar</span><br><span class="line">static void registerDriver(Driver driver) 注册与给定的驱动程序 DriverManager.</span><br><span class="line">写代码使用Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">注意:mysql5之后的驱动jar包可以省略注册驱动的步骤</span><br><span class="line">2.获取数据库连接</span><br><span class="line">static Connection getConnection(String url, String user, String password) 尝试建立与给定数据库URL的连接。  </span><br><span class="line">参数:</span><br><span class="line">url:指定连接路径</span><br><span class="line">	语法:jdbc:mysql://ip地址(域名):端口号/数据库名称</span><br><span class="line">	例子:jdbc:mysql://localhost:3306/db  //(mysql5.0)</span><br><span class="line">	--------------------------mysql8.0写法-----------------------------</span><br><span class="line">		jdbc:mysql://localhost:3306/db</span><br><span class="line">		?useUnicode=true</span><br><span class="line">		&amp;characterEncoding=utf8&amp;useSSL=false&amp;serverTimezone=Hongkong</span><br><span class="line">		&amp;allowPublicKeyRetrieval=true   //(mysql8.0)</span><br><span class="line">user:用户名</span><br><span class="line">password:密码</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-Connection"><a href="#2-Connection" class="headerlink" title="2.Connection"></a>2.Connection</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">数据库连接对象</span><br><span class="line">1.获取执行sql的对象</span><br><span class="line">Statement createStatement() //创建一个 Statement对象，用于将SQL语句发送到数据库。  </span><br><span class="line">PreparedStatement prepareStatement(String sql) //创建一个 PreparedStatement对象，用于将参数化的SQL语句发送到数据库。 </span><br><span class="line">2.管理事务</span><br><span class="line">开启事务:void setAutoCommit(boolean autoCommit) //将此连接的自动提交模式设置为给定状态。true启用自动提交模式; false禁用它   </span><br><span class="line">提交事务:commit()</span><br><span class="line">回滚事务:rollback()</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-Statement"><a href="#3-Statement" class="headerlink" title="3.Statement"></a>3.Statement</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">执行sql的对象</span><br><span class="line">boolean execute(String sql) //执行给定的 SQL 语句，该语句可能返回多个结果。 </span><br><span class="line">int executeUpdate(String sql) //执行给定 SQL 语句，该语句可能为 INSERT、UPDATE 或 DELETE 语句，或者不返回任何内容的 	SQL 语句（如 SQL DDL(create,alter,drop) 语句）。 </span><br><span class="line">	返回值:影响的行数	</span><br><span class="line">ResultSet executeQuery(String sql) //执行给定的 SQL 语句，该语句返回单个 ResultSet 对象。 </span><br></pre></td></tr></table></figure>
+
+<h4 id="4-ResultSet"><a href="#4-ResultSet" class="headerlink" title="4.ResultSet"></a>4.ResultSet</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">结果集对象</span><br><span class="line">boolean next() //将光标从当前位置向前移一行。 </span><br></pre></td></tr></table></figure>
+
+<h4 id="5-PreparedStatement"><a href="#5-PreparedStatement" class="headerlink" title="5.PreparedStatement"></a>5.PreparedStatement</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">执行sql的对象</span><br><span class="line">1.解决sql注入问题:使用PreparedStatement对象来解决</span><br><span class="line">2.预编译的sql:参数使用?作为占位符</span><br></pre></td></tr></table></figure>
+
+<h3 id="三-JDBC管理事务"><a href="#三-JDBC管理事务" class="headerlink" title="三.JDBC管理事务"></a>三.JDBC管理事务</h3><h4 id="1-事务"><a href="#1-事务" class="headerlink" title="1.事务:"></a>1.事务:</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">一个包含多个步骤的业务操作.如果这个业务操作被事务管理,则这个步骤要么同时成功,要么同时失败</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-操作"><a href="#2-操作" class="headerlink" title="2.操作:"></a>2.操作:</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">1.开启事务.</span><br><span class="line">2.提交事务.</span><br><span class="line">3.回滚事务</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-使用Connection对象来管理事务"><a href="#3-使用Connection对象来管理事务" class="headerlink" title="3.使用Connection对象来管理事务"></a>3.使用Connection对象来管理事务</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">开启事务:void setAutoCommit(boolean autoCommit) //将此连接的自动提交模式设置为给定状态。true启用自动提交模式; false禁用它   </span><br><span class="line">提交事务:commit()</span><br><span class="line">回滚事务:rollback()</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>jdbc</tag>
       </tags>
   </entry>
   <entry>
@@ -419,9 +419,11 @@
 ]]></content>
   </entry>
   <entry>
-    <title></title>
+    <title>Linux</title>
     <url>/2022/05/02/Linux/</url>
-    <content><![CDATA[<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+    <content><![CDATA[<span id="more"></span>
+
+<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
 <p>Linux，全称GNU/Linux，是一种免费使用和自由传播的类UNIX操作系统，其内核由林纳斯·本纳第克特·托瓦兹于1991年10月5日首次发布，它主要受到Minix和Unix思想的启发，是一个基于POSIX的多用户、多任务、支持多线程和多CPU的操作系统。</p>
 </blockquote>
 <h3 id="发行版"><a href="#发行版" class="headerlink" title="发行版"></a>发行版</h3><p><img src="https://fanaidi.gitee.io/blogimgs/Linux/Linux%E5%8F%91%E8%A1%8C%E7%89%88.png" alt="linux发行版"></p>
@@ -462,6 +464,12 @@
 <li>重启</li>
 </ol>
 ]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
   </entry>
   <entry>
     <title>Maven</title>
