@@ -421,9 +421,10 @@
   <entry>
     <title>Linux</title>
     <url>/2022/05/02/Linux/</url>
-    <content><![CDATA[<span id="more"></span>
+    <content><![CDATA[<p>[TOC]</p>
+<span id="more"></span>
 
-<h1 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><blockquote>
 <p>Linux，全称GNU/Linux，是一种免费使用和自由传播的类UNIX操作系统，其内核由林纳斯·本纳第克特·托瓦兹于1991年10月5日首次发布，它主要受到Minix和Unix思想的启发，是一个基于POSIX的多用户、多任务、支持多线程和多CPU的操作系统。</p>
 </blockquote>
 <h3 id="发行版"><a href="#发行版" class="headerlink" title="发行版"></a>发行版</h3><p><img src="https://fanaidi.gitee.io/blogimgs/Linux/Linux%E5%8F%91%E8%A1%8C%E7%89%88.png" alt="linux发行版"></p>
